@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import Logo from "./Logo";
 
 class GameMode extends Component {
   render() {
     return (
-      <div>
+      <>
+        <Logo />
         <h3>Game Modes</h3>
-        <Link to="/game-play">~ Start ~</Link>
-      </div>
+        <Link to="/game-play/5/2">~ Start ~</Link>
+      </>
     );
   }
 }

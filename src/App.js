@@ -9,12 +9,14 @@ import GamePlay from "./Components/GamePlay";
 class App extends Component {
   render() {
     return (
-      <div className="app">
-        <Route path="/" exact component={Home} />
-        <Route path="/game-modes" exact component={GameMode} />
-        <Route path="/game-play" exact component={GamePlay} />
-        <Route path="/game-over" exact component={End} />
-        <Route path="/high-scores" exact component={HighScores} />
+      <div className="App">
+        <div className="container">
+          <Route path="/" exact component={Home} />
+          <Route path="/game-modes" exact component={GameMode} />
+          <Route path="/game-play/:time/:players" exact component={GamePlay} />
+          <Route path="/game-over/:time/:players" exact component={End} />
+          <Route path="/high-scores" exact component={HighScores} />
+        </div>
       </div>
     );
   }
