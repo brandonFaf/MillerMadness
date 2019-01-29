@@ -1,25 +1,20 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import React, { Component } from "react";
+import "./App.css";
+import { Route } from "react-router-dom";
+import Home from "./Components/Home";
+import GameMode from "./Components/GameMode";
+import HighScores from "./Components/HighScores";
+import End from "./Components/End";
+import GamePlay from "./Components/GamePlay";
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className="app">
+        <Route path="/" exact component={Home} />
+        <Route path="/game-modes" exact component={GameMode} />
+        <Route path="/game-play" exact component={GamePlay} />
+        <Route path="/game-over" exact component={End} />
+        <Route path="/high-scores" exact component={HighScores} />
       </div>
     );
   }
