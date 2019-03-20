@@ -1,12 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Logo from "./Logo";
-export default () => {
-  return (
-    <>
-      <Logo />
-      <h3>Home</h3>
-      <Link to="/game-modes">~ Start ~</Link>
-    </>
-  );
-};
+import Navigate from "./Navigate";
+
+export default Navigate(props => (
+  <>
+    <Logo />
+    <h3>Home</h3>
+    <span>~ Start ~</span>
+  </>
+))("/game-modes");

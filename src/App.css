@@ -20,6 +20,18 @@
   justify-items: center;
   align-items: center;
 }
+.container:focus {
+  outline: none;
+}
+.players {
+  list-style: none;
+}
+.players:focus {
+  outline: none;
+}
+.selected {
+  color: green;
+}
 a {
   text-decoration: none;
   color: #ffffff;
