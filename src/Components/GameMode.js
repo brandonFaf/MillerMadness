@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Logo from "./Logo";
 export default ({ history }) => {
   const [cursor, setCursor] = useState(1);
+  const ul = useRef(null);
   const handleKeyDown = e => {
     e.preventDefault();
     console.log(e.keyCode);
@@ -14,12 +15,15 @@ export default ({ history }) => {
       history.push(`/game-play/5/${cursor}`);
     }
   };
+  useEffect(() => {
+    ul.current.focus();
+  }, [ul]);
 
   return (
     <div className="container">
       <Logo />
       <h3>Players</h3>
-      <ul tabIndex="0" className="players" onKeyDown={handleKeyDown}>
+      <ul ref={ul} tabIndex="0" className="players" onKeyDown={handleKeyDown}>
         <li className={cursor === 1 && "selected"}>1P</li>
         <li className={cursor === 2 && "selected"}>2P</li>
       </ul>
