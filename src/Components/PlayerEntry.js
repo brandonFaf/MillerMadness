@@ -35,6 +35,7 @@ export default class PlayerEntry extends React.Component {
       });
       this.setState({ cursors, activeCursor: 3 });
     }
+    this.ul.current.focus();
   };
 
   makeInitials = () => this.state.cursors.map(c => c.letter).join('');
@@ -68,9 +69,6 @@ export default class PlayerEntry extends React.Component {
     });
     this.setState({ cursors: newCursors });
   };
-  componentDidMount() {
-    this.ul.current.focus();
-  }
   render() {
     const {
       activeCursor,

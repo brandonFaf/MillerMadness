@@ -4,7 +4,7 @@ import Logo from './Logo';
 export default ({
   history,
   match: {
-    params: { players, initialInitials }
+    params: { players, initialInitials = '' }
   }
 }) => {
   const [activePlayer, setPlayer] = useState(1);
@@ -23,10 +23,15 @@ export default ({
           setInitials(player);
         }
       } else {
-        const allInitials = initials.replace(
-          new RegExp(/\|[A-Z]{3}/g),
-          `|${player}`
-        );
+        let allInitials = initials;
+        if (initials.length > 3) {
+          allInitials = initials.replace(
+            new RegExp(/\|[A-Z]{3}/g),
+            `|${player}`
+          );
+        } else {
+          allInitials += `|${player}`;
+        }
         history.push(`/time/${allInitials}`);
       }
     }
