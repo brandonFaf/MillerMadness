@@ -29,6 +29,20 @@
 .players:focus {
   outline: none;
 }
+.initials {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  &:focus {
+    outline: none;
+  }
+  li {
+    margin: 15px;
+    .selected {
+      color: green;
+    }
+  }
+}
 .selected {
   color: green;
 }

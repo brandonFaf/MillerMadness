@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import Logo from "./Logo";
+import React, { useState, useEffect, useRef } from 'react';
+import Logo from './Logo';
 export default ({ history, ...props }) => {
   const [cursor, setCursor] = useState(0);
   const ul = useRef(null);
@@ -11,7 +11,7 @@ export default ({ history, ...props }) => {
     if (e.keyCode === 38 || e.keyCode === 40) {
       setCursor((cursor + 1) % 2);
     } else if (e.keyCode === 13) {
-      if (cursor == 0) {
+      if (cursor === 0) {
         history.push(`/game-play/${time}/${players}`);
       } else {
         history.push(`/game-modes`);
@@ -27,8 +27,8 @@ export default ({ history, ...props }) => {
       <Logo />
       <h3>Game Over</h3>
       <ul ref={ul} tabIndex="0" className="players" onKeyDown={handleKeyDown}>
-        <li className={cursor === 0 && "selected"}>Retry</li>
-        <li className={cursor === 1 && "selected"}>Home</li>
+        <li className={cursor === 0 && 'selected'}>Retry</li>
+        <li className={cursor === 1 && 'selected'}>Home</li>
       </ul>
     </div>
   );
