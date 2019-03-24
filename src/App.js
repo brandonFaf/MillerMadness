@@ -7,6 +7,7 @@ import HighScores from './Components/HighScores';
 import End from './Components/End';
 import GamePlay from './Components/GamePlay';
 import Players from './Components/Players';
+import Time from './Components/Time';
 class App extends Component {
   render() {
     return (
@@ -14,6 +15,7 @@ class App extends Component {
         <Route path="/" exact component={Home} />
         <Route path="/game-modes" exact component={GameMode} />
         <Route path="/players/:players/:initialInitials?" component={Players} />
+        <Route path="/time/:players" exact component={Time} />
         <Route path="/game-play/:time/:players" exact component={GamePlay} />
         <Route path="/game-over/:time/:players" exact component={End} />
         <Route path="/high-scores" exact component={HighScores} />

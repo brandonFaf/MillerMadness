@@ -50,3 +50,11 @@ a {
   text-decoration: none;
   color: #ffffff;
 }
+.verticle-select {
+  &:focus {
+    outline: none;
+  }
+  .selected {
+    color: green;
+  }
+}

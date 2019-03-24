@@ -24,7 +24,7 @@ export default class PlayerEntry extends React.Component {
     ],
     activeCursor: 0
   };
-  componentWillMount = () => {
+  componentDidMount = () => {
     const { initials } = this.props;
     if (initials) {
       const cursors = initials.split('').map(i => {

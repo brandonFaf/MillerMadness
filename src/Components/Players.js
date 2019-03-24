@@ -11,7 +11,7 @@ export default ({
   const [initials, setInitials] = useState(initialInitials);
   const goNext = player => {
     if (+players === 1) {
-      history.push(`/game-modes/${player}`);
+      history.push(`/time/${player}`);
     } else {
       if (activePlayer === 1) {
         setPlayer(player => ++player);
@@ -27,7 +27,7 @@ export default ({
           new RegExp(/\|[A-Z]{3}/g),
           `|${player}`
         );
-        history.push(`/game-modes/${allInitials}`);
+        history.push(`/time/${allInitials}`);
       }
     }
   };
