@@ -11,6 +11,7 @@ export default ({ history }) => {
     e.preventDefault();
     console.log(e.keyCode);
     // arrow up/down button should select next/previous list element
+    if (e.keyCode === 37) history.goBack();
     if (e.keyCode === 38) setCursor(getPrevCursor());
     else if (e.keyCode === 40) setCursor(getNextCursor());
     else if (e.keyCode === 39) {
