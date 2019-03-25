@@ -1,38 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PlayerEntry from './PlayerEntry';
 import Logo from './Logo';
-export default ({
+import PlayerStore, { PlayerContext } from '../PlayerContext';
+const Player = ({
   history,
   match: {
-    params: { players, initialInitials = '' }
+    params: { players }
   }
 }) => {
   const [activePlayer, setPlayer] = useState(1);
-  const [initials, setInitials] = useState(initialInitials);
+  const context = useContext(PlayerContext);
   const goNext = player => {
     if (+players === 1) {
-      history.push(`/time/${player}`);
+      context.setInitials(player, 1);
+      history.push('/time');
     } else {
       if (activePlayer === 1) {
         setPlayer(player => ++player);
-        if (initials.length > 0) {
-          setInitials(initials =>
-            initials.replace(new RegExp(/[A-Z]{3}\|/g), `${player}|`)
-          );
-        } else {
-          setInitials(player);
-        }
+        context.setInitials(player, 1);
       } else {
-        let allInitials = initials;
-        if (initials.length > 3) {
-          allInitials = initials.replace(
-            new RegExp(/\|[A-Z]{3}/g),
-            `|${player}`
-          );
-        } else {
-          allInitials += `|${player}`;
-        }
-        history.push(`/time/${allInitials}`);
+        context.setInitials(player, 2);
+        history.push(`/time`);
       }
     }
   };
@@ -41,7 +29,7 @@ export default ({
       history.goBack();
     } else {
       setPlayer(1);
-      setInitials(initials => `${initials}|${player}`);
+      context.setInitials(player, 2);
     }
   };
 
@@ -49,12 +37,8 @@ export default ({
     if (players === 1) {
       return <PlayerEntry goNext={goNext} />;
     } else {
-      let initials1,
-        initials2 = '';
-      if (initials) {
-        initials1 = initials.substr(0, 3);
-        initials2 = initials.substr(4, 3);
-      }
+      const [initials1 = '', initials2 = ''] = context.initials;
+
       return (
         <>
           {activePlayer === 1 ? (
@@ -83,5 +67,13 @@ export default ({
       <h3>{activePlayer} Player</h3>
       {showPlayer()}
     </div>
+  );
+};
+
+export default props => {
+  return (
+    <PlayerStore>
+      <Player {...props} />
+    </PlayerStore>
   );
 };

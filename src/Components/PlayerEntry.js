@@ -5,7 +5,6 @@ export default class PlayerEntry extends React.Component {
   constructor(props) {
     super(props);
     this.ul = React.createRef();
-    console.log('here');
   }
   state = {
     cursors: [
