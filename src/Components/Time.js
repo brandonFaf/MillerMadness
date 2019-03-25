@@ -1,9 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import Logo from './Logo';
+import { SettingsContext } from '../SettingsContext';
 export default ({ history }) => {
-  const [cursor, setCursor] = useState(0);
-  const ul = useRef(null);
+  const { time, setTime } = useContext(SettingsContext);
   const choices = [30, 40, 50, 60, 70, 80, 90];
+  let index = choices.indexOf(time);
+  index = index > 0 ? index : 0;
+  const [cursor, setCursor] = useState(index);
+  const ul = useRef(null);
   const getPrevCursor = () =>
     cursor - 1 < 0 ? choices.length - 1 : cursor - 1;
   const getNextCursor = () => (cursor + 1) % choices.length;
@@ -15,7 +19,8 @@ export default ({ history }) => {
     if (e.keyCode === 38) setCursor(getPrevCursor());
     else if (e.keyCode === 40) setCursor(getNextCursor());
     else if (e.keyCode === 39) {
-      history.push(`/confirmation/${choices[cursor]}`);
+      setTime(choices[cursor]);
+      history.push(`/confirmation`);
     }
   };
   useEffect(() => {

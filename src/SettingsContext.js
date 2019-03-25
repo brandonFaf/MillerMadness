@@ -1,14 +1,20 @@
 import React, { createContext } from 'react';
-export const PlayerContext = createContext();
+export const SettingsContext = createContext();
 
-export default class PlayerStore extends React.Component {
+export default class SettingsStore extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       initials: [],
-      setInitials: this.setInitials
+      time: 0,
+      gameMode: 'Classic',
+      setInitials: this.setInitials,
+      setTime: this.setTime
     };
   }
+  setTime = time => {
+    this.setState({ time });
+  };
   setInitials = (newInitials, player) => {
     const { initials } = this.state;
     if (player === 1) {
@@ -19,9 +25,9 @@ export default class PlayerStore extends React.Component {
   };
   render() {
     return (
-      <PlayerContext.Provider value={this.state}>
+      <SettingsContext.Provider value={this.state}>
         {this.props.children}
-      </PlayerContext.Provider>
+      </SettingsContext.Provider>
     );
   }
 }

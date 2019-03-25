@@ -1,15 +1,15 @@
 import React, { useState, useContext } from 'react';
 import PlayerEntry from './PlayerEntry';
 import Logo from './Logo';
-import PlayerStore, { PlayerContext } from '../PlayerContext';
-const Player = ({
+import { SettingsContext } from '../SettingsContext';
+export default ({
   history,
   match: {
     params: { players }
   }
 }) => {
   const [activePlayer, setPlayer] = useState(1);
-  const context = useContext(PlayerContext);
+  const context = useContext(SettingsContext);
   const goNext = player => {
     if (+players === 1) {
       context.setInitials(player, 1);
@@ -67,13 +67,5 @@ const Player = ({
       <h3>{activePlayer} Player</h3>
       {showPlayer()}
     </div>
-  );
-};
-
-export default props => {
-  return (
-    <PlayerStore>
-      <Player {...props} />
-    </PlayerStore>
   );
 };
