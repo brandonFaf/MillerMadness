@@ -3,7 +3,7 @@ import Logo from './Logo';
 import { SettingsContext } from '../SettingsContext';
 export default ({ history }) => {
   const { time, setTime } = useContext(SettingsContext);
-  const choices = [30, 40, 50, 60, 70, 80, 90];
+  const choices = [5, 30, 40, 50, 60, 70, 80, 90];
   let index = choices.indexOf(time);
   index = index > 0 ? index : 0;
   const [cursor, setCursor] = useState(index);

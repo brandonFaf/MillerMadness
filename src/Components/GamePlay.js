@@ -7,15 +7,14 @@ class GamePlay extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: props.match.params.time,
-      players: props.match.params.players,
+      time: props.settings.time,
+      players: props.settings.players,
       score1: 0,
       score2: 0
     };
   }
   componentDidMount() {
     socket.on('player1', () => {
-      console.log('hahahahahaha');
       this.setState(state => ({ score1: state.score1 + 1 }));
     });
     socket.on('player2', () =>
@@ -30,12 +29,8 @@ class GamePlay extends Component {
           };
         });
       } else {
-        this.props.history.push(
-          '/game-over/' +
-            this.props.match.params.time +
-            '/' +
-            this.props.match.params.players
-        );
+        this.props.settings.setScores(this.state.score1, this.state.score2);
+        this.props.history.push('/game-over');
       }
     }, 1000);
   }
@@ -50,26 +45,31 @@ class GamePlay extends Component {
     socket.emit('player2');
   };
   render() {
+    const { settings } = this.props;
     return (
-      <SettingsContext.Consumer>
-        {settings => {
-          return (
-            <div>
-              <h3>{this.state.time} </h3>
-              <h3>
-                {settings.initials[0]} - {this.state.score1}
-              </h3>
-              <h3>
-                {settings.initials[1]} - {this.state.score2}
-              </h3>
-              <button onClick={this.player1}>Player1</button>
-              <button onClick={this.player2}>Player2</button>
-            </div>
-          );
-        }}
-      </SettingsContext.Consumer>
+      <div>
+        <h3>{this.state.time} </h3>
+        <h3>
+          {settings.initials[0]} - {this.state.score1}
+        </h3>
+        {this.state.players > 1 && (
+          <h3>
+            {settings.initials[1]} - {this.state.score2}
+          </h3>
+        )}
+        <button onClick={this.player1}>Player1</button>
+        <button onClick={this.player2}>Player2</button>
+      </div>
     );
   }
 }
 
-export default GamePlay;
+const GamePlayConnected = props => {
+  return (
+    <SettingsContext.Consumer>
+      {settings => <GamePlay settings={settings} {...props} />}
+    </SettingsContext.Consumer>
+  );
+};
+
+export default GamePlayConnected;

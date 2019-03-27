@@ -10,7 +10,7 @@ export default ({ history }) => {
     // arrow up/down button should select next/previous list element
     if (e.keyCode === 37) history.goBack();
     else if (e.keyCode === 39) {
-      history.push(`/game-play/${time}/2`);
+      history.push(`/game-play`);
     }
   };
   useEffect(() => {
@@ -31,9 +31,9 @@ export default ({ history }) => {
         <p>seconds</p>
 
         <p>
-          {initials[0]} vs {initials[1]}{' '}
+          {initials[0]} {initials.length > 1 && `vs ${initials[1]}`}
         </p>
-        <p>2P</p>
+        <p>{initials.length}P</p>
         <p className="selected">Start</p>
       </div>
     </div>

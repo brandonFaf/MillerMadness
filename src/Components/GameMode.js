@@ -1,17 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import Logo from './Logo';
-import classnames from 'classnames';
+import { SettingsContext } from '../SettingsContext';
 export default ({ history }) => {
-  const [cursor, setCursor] = useState(0);
+  const { gameMode, setGameMode } = useContext(SettingsContext);
+  const choices = ['Free for all', 'Knockout', '3 pt shootout'];
+  let index = choices.indexOf(gameMode);
+  index = index > 0 ? index : 0;
+  const [cursor, setCursor] = useState(index);
   const ul = useRef(null);
+  const getPrevCursor = () =>
+    cursor - 1 < 0 ? choices.length - 1 : cursor - 1;
+  const getNextCursor = () => (cursor + 1) % choices.length;
   const handleKeyDown = e => {
     e.preventDefault();
     console.log(e.keyCode);
     // arrow up/down button should select next/previous list element
-    if (e.keyCode === 38 || e.keyCode === 40) {
-      setCursor((cursor + 1) % 2);
-    } else if (e.keyCode === 39) {
-      history.push(`/players/${cursor + 1}`);
+    if (e.keyCode === 37) history.goBack();
+    if (e.keyCode === 38) setCursor(getPrevCursor());
+    else if (e.keyCode === 40) setCursor(getNextCursor());
+    else if (e.keyCode === 39) {
+      setGameMode(choices[cursor]);
+      history.push(`/players`);
     }
   };
   useEffect(() => {
@@ -21,11 +30,17 @@ export default ({ history }) => {
   return (
     <div className="container">
       <Logo />
-      <h3>Players</h3>
-      <ul ref={ul} tabIndex="0" className="players" onKeyDown={handleKeyDown}>
-        <li className={classnames(cursor === 0 && 'selected')}>1P</li>
-        <li className={classnames(cursor === 1 && 'selected')}>2P</li>
-      </ul>
+      <h3>Time Limit</h3>
+      <div
+        tabIndex="0"
+        className="verticle-select"
+        ref={ul}
+        onKeyDown={handleKeyDown}
+      >
+        <p>{choices[getPrevCursor()]}</p>
+        <p className="selected">{choices[cursor]}</p>
+        <p>{choices[getNextCursor()]}</p>
+      </div>
     </div>
   );
 };
