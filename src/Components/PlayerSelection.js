@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import Logo from './Logo';
 import { SettingsContext } from '../SettingsContext';
-import classnames from 'classnames';
+import basketball from '../img/Basketball.png';
 export default ({ history }) => {
-  const { setPlayers } = useContext(SettingsContext);
+  const { gameMode, setPlayers } = useContext(SettingsContext);
   const [cursor, setCursor] = useState(0);
   const ul = useRef(null);
   const handleKeyDown = e => {
@@ -24,11 +24,21 @@ export default ({ history }) => {
   return (
     <div className="container">
       <Logo />
-      <h3>Players</h3>
-      <ul ref={ul} tabIndex="0" className="players" onKeyDown={handleKeyDown}>
-        <li className={classnames(cursor === 0 && 'selected')}>1P</li>
-        <li className={classnames(cursor === 1 && 'selected')}>2P</li>
-      </ul>
+      <p className="gameMode">{gameMode}</p>
+      <p>Players</p>
+      <div ref={ul} tabIndex="0" className="players" onKeyDown={handleKeyDown}>
+        <div className="horizontal-selection">
+          {cursor === 0 && <img alt="basketball" src={basketball} />}
+          <span className="selected">1P</span>
+          {cursor === 0 && <img alt="basketball" src={basketball} />}
+        </div>
+
+        <div className="horizontal-selection">
+          {cursor === 1 && <img alt="basketball" src={basketball} />}
+          <span className="selected">2P</span>
+          {cursor === 1 && <img alt="basketball" src={basketball} />}
+        </div>
+      </div>
     </div>
   );
 };

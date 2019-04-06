@@ -1,6 +1,9 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import Logo from './Logo';
 import { SettingsContext } from '../SettingsContext';
+import basketball from '../img/Basketball.png';
+import up from '../img/up.png';
+import down from '../img/down.png';
 export default ({ history }) => {
   const { gameMode, setGameMode } = useContext(SettingsContext);
   const choices = ['Free for all', 'Knockout', '3 pt shootout'];
@@ -30,16 +33,21 @@ export default ({ history }) => {
   return (
     <div className="container">
       <Logo />
-      <h3>Time Limit</h3>
       <div
         tabIndex="0"
         className="verticle-select"
         ref={ul}
         onKeyDown={handleKeyDown}
       >
+        <img src={up} alt="up" />
         <p>{choices[getPrevCursor()]}</p>
-        <p className="selected">{choices[cursor]}</p>
+        <div className="horizontal-selection">
+          <img alt="basketball" src={basketball} />
+          <span className="selected">{choices[cursor]}</span>
+          <img alt="basketball" src={basketball} />
+        </div>
         <p>{choices[getNextCursor()]}</p>
+        <img src={down} alt="down" />
       </div>
     </div>
   );

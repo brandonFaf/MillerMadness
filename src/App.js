@@ -12,9 +12,17 @@ import Confirmation from './Components/Confirmation';
 import SettingStore from './SettingsContext';
 import PlayerSelection from './Components/PlayerSelection';
 class App extends Component {
+  state = { go: false };
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ go: true });
+    }, 1000);
+  }
   render() {
     return (
       <div className="App">
+        <div className={this.state.go ? 'beth on' : 'beth off'} />
+        <div className={this.state.go ? 'travis on' : 'travis off'} />
         <SettingStore>
           <Route path="/" exact component={Home} />
           <Route path="/game-modes" exact component={GameMode} />
