@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useRef } from 'react';
 import { SettingsContext } from '../SettingsContext';
 import Logo from './Logo';
+import basketball from '../img/Basketball.png';
 export default ({ history }) => {
   const { time, initials, gameMode } = useContext(SettingsContext);
   const ul = useRef(null);
@@ -20,21 +21,33 @@ export default ({ history }) => {
   return (
     <div className="container">
       <Logo />
-      <h3>{gameMode}</h3>
+      <p className="gameMode">{gameMode}</p>
       <div
         tabIndex="0"
         className="verticle-select"
         ref={ul}
         onKeyDown={handleKeyDown}
       >
-        <p>{time}</p>
-        <p>seconds</p>
-
-        <p>
-          {initials[0]} {initials.length > 1 && `vs ${initials[1]}`}
-        </p>
-        <p>{initials.length}P</p>
-        <p className="selected">Start</p>
+        <div className="conf-group">
+          <p>
+            {initials[0]}{' '}
+            {initials.length > 1 && (
+              <>
+                <span className="small">vs</span> {initials[1]}
+              </>
+            )}
+          </p>
+          <p className="small">{initials.length}P</p>
+        </div>
+        <div className="conf-group">
+          <p>{time}</p>
+          <p className="small">seconds</p>
+          <div className="horizontal-selection">
+            <img alt="basketball" src={basketball} />
+            <span className="selected">Start</span>
+            <img alt="basketball" src={basketball} />
+          </div>
+        </div>
       </div>
     </div>
   );

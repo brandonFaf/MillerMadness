@@ -12,6 +12,14 @@
   justify-content: center;
   align-items: center;
 }
+.vertical-selection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 10px;
+  width: 25px;
+}
 
 body {
   font-family: 'slkscr';
@@ -22,19 +30,20 @@ ul {
   padding: 0;
   margin: 0;
 }
+
 li.selected::before {
-  content: url(./img/Basketball.png);
-  bottom: 25px;
-  right: 2px;
+  content: url(./img/up.png);
+  bottom: 30px;
+  left: 4px;
   display: inline-block;
   width: 0;
   height: 0;
   position: relative;
 }
 li.selected::after {
-  content: url(./img/Basketball.png);
-  top: 32px;
-  right: 20px;
+  content: url(./img/down.png);
+  top: 25px;
+  right: 30px;
   display: inline-block;
   width: 0;
   height: 0;
@@ -80,7 +89,7 @@ li.selected::after {
 
 .logo {
   width: 582px;
-  height: 243px;
+  height: 150px;
   border: 10px solid #ffffff;
   box-sizing: border-box;
 }
@@ -117,11 +126,15 @@ li.selected::after {
   display: flex;
   flex-direction: row;
   list-style: none;
+  justify-content: center;
+  font-family: 'slkscb';
+
   &:focus {
     outline: none;
   }
   li {
     margin: 15px;
+    font-family: 'slkscb';
   }
 }
 
@@ -144,4 +157,15 @@ a {
       font-family: 'slkscb';
     }
   }
+}
+.small {
+  font-size: 24px;
+  font-family: 'slkscr';
+}
+.medium {
+  font-size: 36px;
+}
+.conf-group {
+  margin-bottom: 25px;
+  font-family: 'slkscb';
 }

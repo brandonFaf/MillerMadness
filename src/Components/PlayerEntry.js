@@ -1,5 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
+import up from '../img/up.png';
+import down from '../img/down.png';
+import basketball from '../img/Basketball.png';
 const alph = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 export default class PlayerEntry extends React.Component {
   constructor(props) {
@@ -75,26 +78,43 @@ export default class PlayerEntry extends React.Component {
     } = this.state;
     return (
       <div className="stacked">
-        <ul
+        <div
           ref={this.ul}
           tabIndex="0"
           className="initials"
           onKeyDown={this.handleKeyDown}
         >
-          <li className={classnames(activeCursor === 0 && 'selected')}>
-            {alph[cursor1.cursor]}
-          </li>
-          <li className={classnames(activeCursor === 1 && 'selected')}>
-            {alph[cursor2.cursor]}
-          </li>
-          <li className={classnames(activeCursor === 2 && 'selected')}>
-            {alph[cursor3.cursor]}
-          </li>
-        </ul>
+          <div className="vertical-selection">
+            {activeCursor === 0 && <img alt="basketball" src={up} />}
+            <p className={classnames(activeCursor === 0 && 'selected')}>
+              {alph[cursor1.cursor]}
+            </p>
+            {activeCursor === 0 && <img alt="basketball" src={down} />}
+          </div>
+          <div className="vertical-selection">
+            {activeCursor === 1 && <img alt="basketball" src={up} />}
+            <p className={classnames(activeCursor === 1 && 'selected')}>
+              {alph[cursor2.cursor]}
+            </p>
+            {activeCursor === 1 && <img alt="basketball" src={down} />}
+          </div>
+          <div className="vertical-selection">
+            {activeCursor === 2 && <img alt="basketball" src={up} />}
+            <p className={classnames(activeCursor === 2 && 'selected')}>
+              {alph[cursor3.cursor]}
+            </p>
+            {activeCursor === 2 && <img alt="basketball" src={down} />}
+          </div>
+        </div>
         {activeCursor === 3 && (
-          <p className={classnames(activeCursor === 3 && 'selected')}>
-            Continue
-          </p>
+          <div className="horizontal-selection">
+            {activeCursor === 3 && <img alt="basketball" src={basketball} />}
+            <p className={classnames(activeCursor === 3 && 'selected')}>
+              Continue
+            </p>
+
+            {activeCursor === 3 && <img alt="basketball" src={basketball} />}
+          </div>
         )}
       </div>
     );

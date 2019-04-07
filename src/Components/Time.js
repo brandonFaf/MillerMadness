@@ -1,8 +1,10 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import Logo from './Logo';
 import { SettingsContext } from '../SettingsContext';
+import up from '../img/up.png';
+import down from '../img/down.png';
 export default ({ history }) => {
-  const { time, setTime } = useContext(SettingsContext);
+  const { gameMode, time, setTime } = useContext(SettingsContext);
   const choices = [5, 30, 40, 50, 60, 70, 80, 90];
   let index = choices.indexOf(time);
   index = index > 0 ? index : 0;
@@ -30,16 +32,18 @@ export default ({ history }) => {
   return (
     <div className="container">
       <Logo />
-      <h3>Time Limit</h3>
+      <p className="gameMode">{gameMode}</p>
+      <p className="medium">Time Limit</p>
       <div
         tabIndex="0"
         className="verticle-select"
         ref={ul}
         onKeyDown={handleKeyDown}
       >
-        <p>{choices[getPrevCursor()]} seconds</p>
-        <p className="selected">{choices[cursor]} seconds</p>
-        <p>{choices[getNextCursor()]} seconds</p>
+        <img src={up} alt="up" />
+        <p className="selected">{choices[cursor]}</p>
+        <img src={down} alt="down" />
+        <p className="small">seconds</p>
       </div>
     </div>
   );

@@ -64,7 +64,9 @@ export default ({
   return (
     <div className="container">
       <Logo />
-      <h3>{activePlayer} Player</h3>
+      <p className="gameMode">{context.gameMode}</p>
+
+      <p>{activePlayer}P Name</p>
       {showPlayer()}
     </div>
   );
