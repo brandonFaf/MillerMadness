@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import { SettingsContext } from '../SettingsContext';
 import openSocket from 'socket.io-client';
+import classNames from 'classnames';
+import './gameplay.scss';
 const socket = openSocket('http://localhost:3001');
 
 class GamePlay extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: props.settings.time,
+      countdown: 3,
+      time: (props.settings.time || 300) + 3,
       players: props.settings.players,
       score1: 0,
-      score2: 0
+      score2: 0,
+      gameMode: props.settings.gameMode
     };
   }
   componentDidMount() {
@@ -20,7 +24,21 @@ class GamePlay extends Component {
     socket.on('player2', () =>
       this.setState(state => ({ score2: state.score2 + 1 }))
     );
-
+    this.countdown = setInterval(() => {
+      if (this.state.countdown > 0) {
+        this.setState(prevState => {
+          return {
+            countdown: --prevState.countdown
+          };
+        });
+      } else {
+        clearInterval(this.countdown);
+      }
+    }, 1000);
+    this.startTimer();
+  }
+  startTimer = () => {
+    console.log('start timer');
     this.timer = setInterval(() => {
       if (this.state.time > 0) {
         this.setState(prevState => {
@@ -33,32 +51,48 @@ class GamePlay extends Component {
         this.props.history.push('/game-over');
       }
     }, 1000);
-  }
+  };
   componentWillUnmount() {
     clearInterval(this.timer);
     console.log('clearing timer');
   }
-  player1 = () => {
-    socket.emit('player1');
+  renderCountdown = () => {
+    return <div className="countdown">{this.state.countdown}</div>;
   };
-  player2 = () => {
-    socket.emit('player2');
-  };
+
   render() {
     const { settings } = this.props;
+
     return (
       <div>
-        <h3>{this.state.time} </h3>
-        <h3>
-          {settings.initials[0]} - {this.state.score1}
-        </h3>
-        {this.state.players > 1 && (
-          <h3>
-            {settings.initials[1]} - {this.state.score2}
-          </h3>
-        )}
-        <button onClick={this.player1}>Player1</button>
-        <button onClick={this.player2}>Player2</button>
+        {this.state.countdown > 0 && this.renderCountdown()}
+        <div className="gameplay">
+          <div className="time">
+            <div className="seconds">{this.state.time}</div>
+            <div>seconds</div>
+          </div>
+          <div
+            className={classNames('score', {
+              solo: this.state.players === 1,
+              'score-1': this.state.players === 2
+            })}
+          >
+            {this.state.players === 2 && <div>{settings.initials[0]}</div>}
+            <div className="numbers"> {this.state.score1}</div>
+            <div className="small">POINTS</div>
+          </div>
+          <div className="small-logo">
+            <img src="https://via.placeholder.com/300x150" alt="logo" />
+            <div>{this.state.gameMode}</div>
+          </div>
+          {this.state.players > 1 && (
+            <div className="score score-2">
+              <div>{settings.initials[1]}</div>
+              <div className="numbers"> {this.state.score2}</div>
+              <div className="small">POINTS</div>
+            </div>
+          )}
+        </div>
       </div>
     );
   }

@@ -169,3 +169,12 @@ a {
   margin-bottom: 25px;
   font-family: 'slkscb';
 }
+.countdown {
+  background: url('./img/CountdownBG.png') bottom center repeat;
+  font-size: 75px;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  font-family: 'slkscb';
+  height: 100vh;
+}
