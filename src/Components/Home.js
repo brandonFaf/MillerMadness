@@ -16,10 +16,9 @@ export default ({ history }) => {
         <div className={go ? 'beth on' : 'beth off'} />
         <div className={go ? 'travis on' : 'travis off'} />
         <div className="logo" />
-        <h3>Home</h3>
-        <div className="horizontal-selection">
+        <div className="horizontal-selection start">
           <img alt="basketball" src={basketball} />
-          <span> Start </span>
+          <span className="selected"> Start </span>
           <img alt="basketball" src={basketball} />
         </div>
       </div>

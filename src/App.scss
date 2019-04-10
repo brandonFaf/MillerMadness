@@ -166,6 +166,9 @@ a {
   width: 50%;
   margin-bottom: 80px;
 }
+.start {
+  margin-top: 200px;
+}
 .player-score {
   display: flex;
   flex-direction: column;
@@ -213,4 +216,8 @@ p.m-t-l {
 }
 .gameMode-selection {
   width: auto;
+  margin-top: 65px;
+  .selected {
+    padding: 30px;
+  }
 }
