@@ -17,57 +17,60 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 5px 10px;
+  padding: 0 20px;
   width: 25px;
+  .arrow:first-child {
+    margin-bottom: 15px;
+  }
+  .arrow:last-child {
+    margin-top: 15px;
+  }
+  .selected {
+    text-shadow: -2px 0 #575454, 0 2px #575454, 2px 0 #575454, 0 -2px #575454;
+  }
+  &:focus {
+    outline: none;
+  }
 }
 
 body {
   font-family: 'slkscr';
   font-size: 40px;
   overflow: hidden;
+  text-shadow: -5px 0 black, 0 5px black, 5px 0 black, 0 -5px black;
 }
 ul {
   padding: 0;
   margin: 0;
 }
 
-li.selected::before {
-  content: url(./img/up.png);
-  bottom: 30px;
-  left: 4px;
-  display: inline-block;
-  width: 0;
-  height: 0;
-  position: relative;
-}
-li.selected::after {
-  content: url(./img/down.png);
-  top: 25px;
-  right: 30px;
-  display: inline-block;
-  width: 0;
-  height: 0;
-  position: relative;
+.background {
+  background: url('./img/EnterScreen-BG.png') bottom center repeat;
+  z-index: -2;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
 }
 .App {
-  height: 100vh;
-  background: url('./img/EnterScreen-BG.png') bottom center repeat;
+  // background: url('./img/EnterScreen-BG.png') bottom center repeat;
   color: #ffffff;
-  z-index: -2;
+  height: 100vh;
   position: relative;
 }
 .travis {
   height: 100vh;
   width: 100%;
   position: absolute;
-  top: 0;
   background: url('./img/Travis.png') left center no-repeat;
   z-index: -1;
+  right: 200px;
+  top: 75px;
   &.off {
     left: -1000px;
   }
   &.on {
     left: 0;
+    top: 0;
     transition: left 0.5s ease-in;
   }
 }
@@ -75,14 +78,18 @@ li.selected::after {
   height: 100vh;
   width: 100%;
   position: absolute;
-  top: 0;
   background: url('./img/Beth.png') right center no-repeat;
   z-index: -1;
+  right: -200px;
+  top: 75px;
+
   &.off {
     right: -1000px;
   }
   &.on {
     right: 0;
+    top: 0px;
+
     transition: right 0.5s ease-in;
   }
 }
@@ -118,6 +125,7 @@ li.selected::after {
 }
 .players {
   list-style: none;
+  font-family: 'slkscb';
 }
 .players:focus {
   outline: none;
@@ -142,21 +150,43 @@ a {
   text-decoration: none;
   color: #ffffff;
 }
-.verticle-select {
-  &:focus {
-    outline: none;
-  }
+
+.horizontal-selection {
+  margin: 10px;
   .selected {
     margin: 0 10px;
+    font-family: 'slkscb';
+    text-shadow: -2px 0 #575454, 0 2px #575454, 2px 0 #575454, 0 -2px #575454;
   }
 }
-.players {
-  .horizontal-selection {
-    .selected {
-      margin: 10px;
-      font-family: 'slkscb';
-    }
+.final-score {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  width: 50%;
+  margin-bottom: 80px;
+}
+.player-score {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  p.numbers {
+    font-size: 90px;
   }
+  .time {
+    font-size: 70px;
+  }
+  .winner {
+    text-shadow: -2px 0 #575454, 0 2px #575454, 2px 0 #575454, 0 -2px #575454;
+  }
+}
+.winner-text {
+  font-size: 60px;
+  margin-top: 61px;
+}
+.small-logo {
+  font-size: 30px;
+  font-family: 'slkscb';
 }
 .small {
   font-size: 24px;
@@ -171,10 +201,16 @@ a {
 }
 .countdown {
   background: url('./img/CountdownBG.png') bottom center repeat;
-  font-size: 75px;
+  font-size: 374px;
   display: grid;
   justify-content: center;
   align-items: center;
   font-family: 'slkscb';
   height: 100vh;
+}
+p.m-t-l {
+  margin-top: 25px;
+}
+.gameMode-selection {
+  width: auto;
 }

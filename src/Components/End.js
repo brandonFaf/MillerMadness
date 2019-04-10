@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { SettingsContext } from '../SettingsContext';
-import Logo from './Logo';
+import basketball from '../img/Basketball.png';
 import classnames from 'classnames';
 export default ({ history, ...props }) => {
-  const { initials, scores } = useContext(SettingsContext);
+  const {
+    time = 102,
+    gameMode,
+    initials = ['AAA', 'BBB'],
+    scores = [99, 98]
+  } = useContext(SettingsContext);
   const [cursor, setCursor] = useState(0);
   const ul = useRef(null);
   const winner = scores.indexOf(Math.max(...scores));
@@ -26,27 +31,65 @@ export default ({ history, ...props }) => {
 
   return (
     <div className="container">
-      <Logo />
-      <h3>Game Over</h3>
+      <div className={'beth'} />
+      <div className={'travis'} />
+
+      <div className="small-logo">
+        <img src="https://via.placeholder.com/196x64" alt="logo" />
+        <div>{gameMode}</div>
+      </div>
       {initials.length === 1 ? (
-        <div>
-          {initials[0]} = {scores[0]}
-        </div>
+        <>
+          <div className="winner-text">TIME'S UP</div>
+          <div className="final-score">
+            <div className="player-score">
+              <p className="numbers">{scores[0]}</p>
+              <p className="small">{initials[0]}</p>
+            </div>
+            <div className="player-score">
+              <p className="time">{time}</p>
+              <p className="small">SECONDS</p>
+            </div>
+          </div>
+        </>
       ) : (
         <>
-          <div> {initials[winner]} Wins! </div>
-          <div>
-            {initials[0]} = {scores[0]}
-          </div>
-          <div>
-            {initials[1]} = {scores[1]}
+          <div className="winner-text"> {initials[winner]} Wins! </div>
+          <div className="final-score">
+            <div
+              className={classnames('player-score', { winner: winner === 0 })}
+            >
+              <p className="numbers">{scores[0]}</p>
+              <p className="small">{initials[0]}</p>
+            </div>
+            <div className="player-score">
+              <p className="time">{time}</p>
+              <p className="small">SECONDS</p>
+            </div>
+            <div
+              className={classnames('player-score', { winner: winner === 1 })}
+            >
+              <p className="numbers">{scores[1]}</p>
+              <p className="small">{initials[1]}</p>
+            </div>
           </div>
         </>
       )}
-      <ul ref={ul} tabIndex="0" className="players" onKeyDown={handleKeyDown}>
-        <li className={classnames({ selected: cursor === 0 })}>Retry</li>
-        <li className={classnames({ selected: cursor === 1 })}>Home</li>
-      </ul>
+
+      <div ref={ul} tabIndex="0" className="players" onKeyDown={handleKeyDown}>
+        <div className="horizontal-selection">
+          {cursor === 0 && <img alt="basketball" src={basketball} />}
+          <span className={classnames({ selected: cursor === 0 })}>
+            REMATCH
+          </span>
+          {cursor === 0 && <img alt="basketball" src={basketball} />}
+        </div>
+        <div className="horizontal-selection">
+          {cursor === 1 && <img alt="basketball" src={basketball} />}
+          <span className={classnames({ selected: cursor === 1 })}>MENU</span>
+          {cursor === 1 && <img alt="basketball" src={basketball} />}
+        </div>
+      </div>
     </div>
   );
 };

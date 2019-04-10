@@ -24,7 +24,7 @@ export default ({ history }) => {
       <p className="gameMode">{gameMode}</p>
       <div
         tabIndex="0"
-        className="verticle-select"
+        className="vertical-selection"
         ref={ul}
         onKeyDown={handleKeyDown}
       >

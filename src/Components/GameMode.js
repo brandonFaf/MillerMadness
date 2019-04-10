@@ -31,24 +31,26 @@ export default ({ history }) => {
   }, [ul]);
 
   return (
-    <div className="container">
-      <Logo />
-      <div
-        tabIndex="0"
-        className="verticle-select"
-        ref={ul}
-        onKeyDown={handleKeyDown}
-      >
-        <img src={up} alt="up" />
-        <p>{choices[getPrevCursor()]}</p>
-        <div className="horizontal-selection">
-          <img alt="basketball" src={basketball} />
-          <span className="selected">{choices[cursor]}</span>
-          <img alt="basketball" src={basketball} />
+    <>
+      <div className="container">
+        <Logo />
+        <div
+          tabIndex="0"
+          className="vertical-selection gameMode-selection"
+          ref={ul}
+          onKeyDown={handleKeyDown}
+        >
+          <img className="arrow" src={up} alt="up" />
+          <p>{choices[getPrevCursor()]}</p>
+          <div className="horizontal-selection">
+            <img alt="basketball" src={basketball} />
+            <span className="selected">{choices[cursor]}</span>
+            <img alt="basketball" src={basketball} />
+          </div>
+          <p>{choices[getNextCursor()]}</p>
+          <img src={down} className="arrow" alt="down" />
         </div>
-        <p>{choices[getNextCursor()]}</p>
-        <img src={down} alt="down" />
       </div>
-    </div>
+    </>
   );
 };

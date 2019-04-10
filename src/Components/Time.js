@@ -36,15 +36,15 @@ export default ({ history }) => {
       <p className="medium">Time Limit</p>
       <div
         tabIndex="0"
-        className="verticle-select"
+        className="vertical-selection"
         ref={ul}
         onKeyDown={handleKeyDown}
       >
-        <img src={up} alt="up" />
+        <img src={up} className="arrow" alt="up" />
         <p className="selected">{choices[cursor]}</p>
-        <img src={down} alt="down" />
-        <p className="small">seconds</p>
+        <img src={down} className="arrow" alt="down" />
       </div>
+      <p className="small">seconds</p>
     </div>
   );
 };

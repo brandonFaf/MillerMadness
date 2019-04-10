@@ -5,11 +5,11 @@ export default class SettingsStore extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      players: 1,
-      initials: [],
-      scores: [],
-      time: 0,
-      gameMode: 'Classic',
+      players: 2,
+      initials: ['AAA', 'BBB'],
+      scores: [99, 98],
+      time: 102,
+      gameMode: 'KNOCK OUT',
       setInitials: this.setInitials,
       setTime: this.setTime,
       setGameMode: this.setGameMode,

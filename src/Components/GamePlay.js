@@ -82,7 +82,7 @@ class GamePlay extends Component {
             <div className="small">POINTS</div>
           </div>
           <div className="small-logo">
-            <img src="https://via.placeholder.com/300x150" alt="logo" />
+            <img src="https://via.placeholder.com/196x64" alt="logo" />
             <div>{this.state.gameMode}</div>
           </div>
           {this.state.players > 1 && (

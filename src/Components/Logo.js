@@ -1,5 +1,9 @@
-import React from "react";
+import React from 'react';
 
-export default () => {
-  return <div className="logo" />;
-};
+export default ({ go = true }) => (
+  <>
+    <div className="beth" />
+    <div className="travis" />
+    <div className="logo" />
+  </>
+);

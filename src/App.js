@@ -21,8 +21,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className={this.state.go ? 'beth on' : 'beth off'} />
-        <div className={this.state.go ? 'travis on' : 'travis off'} />
+        <div className="background" />
         <SettingStore>
           <Route path="/" exact component={Home} />
           <Route path="/game-modes" exact component={GameMode} />

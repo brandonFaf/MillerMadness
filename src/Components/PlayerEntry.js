@@ -85,25 +85,37 @@ export default class PlayerEntry extends React.Component {
           onKeyDown={this.handleKeyDown}
         >
           <div className="vertical-selection">
-            {activeCursor === 0 && <img alt="basketball" src={up} />}
+            {activeCursor === 0 && (
+              <img alt="arrow" className="arrow" src={up} />
+            )}
             <p className={classnames(activeCursor === 0 && 'selected')}>
               {alph[cursor1.cursor]}
             </p>
-            {activeCursor === 0 && <img alt="basketball" src={down} />}
+            {activeCursor === 0 && (
+              <img alt="arrow" className="arrow" src={down} />
+            )}
           </div>
           <div className="vertical-selection">
-            {activeCursor === 1 && <img alt="basketball" src={up} />}
+            {activeCursor === 1 && (
+              <img alt="arrow" className="arrow" src={up} />
+            )}
             <p className={classnames(activeCursor === 1 && 'selected')}>
               {alph[cursor2.cursor]}
             </p>
-            {activeCursor === 1 && <img alt="basketball" src={down} />}
+            {activeCursor === 1 && (
+              <img alt="arrow" className="arrow" src={down} />
+            )}
           </div>
           <div className="vertical-selection">
-            {activeCursor === 2 && <img alt="basketball" src={up} />}
+            {activeCursor === 2 && (
+              <img alt="arrow" className="arrow" src={up} />
+            )}
             <p className={classnames(activeCursor === 2 && 'selected')}>
               {alph[cursor3.cursor]}
             </p>
-            {activeCursor === 2 && <img alt="basketball" src={down} />}
+            {activeCursor === 2 && (
+              <img alt="arrow" className="arrow" src={down} />
+            )}
           </div>
         </div>
         {activeCursor === 3 && (
