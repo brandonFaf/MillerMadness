@@ -38,6 +38,7 @@ body {
   font-size: 40px;
   overflow: hidden;
   text-shadow: -5px 0 black, 0 5px black, 5px 0 black, 0 -5px black;
+  letter-spacing: 0.27em;
 }
 ul {
   padding: 0;
@@ -130,6 +131,9 @@ ul {
 .players:focus {
   outline: none;
 }
+.initial-letters {
+  letter-spacing: 0.48em;
+}
 .initials {
   display: flex;
   flex-direction: row;
@@ -201,6 +205,11 @@ a {
 .conf-group {
   margin-bottom: 25px;
   font-family: 'slkscb';
+  .vs {
+    font-size: 30px;
+    font-family: 'slkscb';
+    margin: 25px;
+  }
 }
 .countdown {
   background: url('./img/CountdownBG.png') bottom center repeat;

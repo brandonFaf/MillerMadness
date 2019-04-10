@@ -29,15 +29,17 @@ export default ({ history }) => {
         onKeyDown={handleKeyDown}
       >
         <div className="conf-group">
-          <p>
-            {initials[0]}{' '}
-            {initials.length > 1 && (
-              <>
-                <span className="small">vs</span> {initials[1]}
-              </>
-            )}
+          <p className="initial-letters">
+            {initials[0]}
+            <p className="small">1P</p>
           </p>
-          <p className="small">{initials.length}P</p>
+          {initials.length > 1 && (
+            <>
+              <p className="small vs">vs</p>
+              <p className="initial-letters">{initials[1]}</p>
+              <p className="small">2P</p>
+            </>
+          )}
         </div>
         <div className="conf-group">
           <p>{time}</p>
