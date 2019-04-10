@@ -6,8 +6,8 @@ export default class SettingsStore extends React.Component {
     super(props);
     this.state = {
       players: 1,
-      initials: ['AAA'],
-      scores: [99, 98],
+      initials: ['AAA', 'bbb'],
+      scores: [7, 8],
       time: 102,
       gameMode: 'KNOCK OUT',
       setInitials: this.setInitials,
