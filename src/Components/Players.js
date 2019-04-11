@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import PlayerEntry from './PlayerEntry';
-import Logo from './Logo';
 import { SettingsContext } from '../SettingsContext';
 export default ({
   history,
@@ -13,14 +12,14 @@ export default ({
   const goNext = player => {
     if (+players === 1) {
       context.setInitials(player, 1);
-      history.push('/time');
+      history.push('/game/time');
     } else {
       if (activePlayer === 1) {
         setPlayer(player => ++player);
         context.setInitials(player, 1);
       } else {
         context.setInitials(player, 2);
-        history.push(`/time`);
+        history.push(`/game/time`);
       }
     }
   };
@@ -62,12 +61,11 @@ export default ({
     }
   };
   return (
-    <div className="container">
-      <Logo />
+    <>
       <p className="gameMode">{context.gameMode}</p>
 
       <p>{activePlayer}P Name</p>
       {showPlayer()}
-    </div>
+    </>
   );
 };

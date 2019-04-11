@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
-import Logo from './Logo';
 import { SettingsContext } from '../SettingsContext';
 import up from '../img/up.png';
 import down from '../img/down.png';
@@ -22,7 +21,7 @@ export default ({ history }) => {
     else if (e.keyCode === 40) setCursor(getNextCursor());
     else if (e.keyCode === 39) {
       setTime(choices[cursor]);
-      history.push(`/confirmation`);
+      history.push(`/game/confirmation`);
     }
   };
   useEffect(() => {
@@ -30,8 +29,7 @@ export default ({ history }) => {
   }, [ul]);
 
   return (
-    <div className="container">
-      <Logo />
+    <>
       <p className="gameMode">{gameMode}</p>
       <p className="medium">Time Limit</p>
       <div
@@ -45,6 +43,6 @@ export default ({ history }) => {
         <img src={down} className="arrow" alt="down" />
       </div>
       <p className="small">seconds</p>
-    </div>
+    </>
   );
 };

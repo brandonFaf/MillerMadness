@@ -19,7 +19,7 @@ export default ({ history, ...props }) => {
       if (cursor === 0) {
         history.push(`/game-play`);
       } else {
-        history.push(`/game-modes`);
+        history.push(`/game/game-modes`);
       }
     }
   };
