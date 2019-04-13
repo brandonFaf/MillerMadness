@@ -19,11 +19,15 @@ class GamePlay extends Component {
   }
   componentDidMount() {
     socket.on('player1', () => {
-      this.setState(state => ({ score1: state.score1 + 1 }));
+      if (this.state.countdown <= 0) {
+        this.setState(state => ({ score1: state.score1 + 1 }));
+      }
     });
-    socket.on('player2', () =>
-      this.setState(state => ({ score2: state.score2 + 1 }))
-    );
+    socket.on('player2', () => {
+      if (this.state.countdown <= 0) {
+        this.setState(state => ({ score2: state.score2 + 1 }));
+      }
+    });
     this.countdown = setInterval(() => {
       if (this.state.countdown > 0) {
         this.setState(prevState => {
