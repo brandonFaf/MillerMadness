@@ -3,6 +3,8 @@ import { SettingsContext } from '../SettingsContext';
 import basketball from '../img/Basketball.png';
 import classnames from 'classnames';
 import { saveScore } from '../utilities/highscores';
+import Sound from 'react-sound';
+import music from '../sounds/8 Game Over.wav';
 export default ({ history, ...props }) => {
   const { time, gameMode, initials, scores } = useContext(SettingsContext);
   const [highscore1, setHighscore1] = useState(false);
@@ -33,6 +35,8 @@ export default ({ history, ...props }) => {
 
   return (
     <div className="container">
+      <Sound url={music} playStatus={Sound.status.PLAYING} loop autoLoad />
+
       <div className={'beth'} />
       <div className={'travis'} />
 

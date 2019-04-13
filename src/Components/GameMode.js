@@ -5,15 +5,12 @@ import up from '../img/up.png';
 import down from '../img/down.png';
 import highScoresLabel from '../img/highScoresLabel.png';
 import { getHighscores } from '../utilities/highscores';
-import moveSound from '../sounds/sfx_menu_move4.wav';
-import Sound from 'react-sound';
 export default ({ history }) => {
   const { gameMode, setGameMode } = useContext(SettingsContext);
   const choices = ['Free For All', 'Knockout', '3 pt shootout'];
   let index = choices.indexOf(gameMode);
   index = index > 0 ? index : 0;
   const [cursor, setCursor] = useState(index);
-  const [moveSoundStatus, setMoveSoundStatus] = useState(Sound.status.STOPPED);
   const [highScores, setHighScores] = useState(getHighscores(choices[cursor]));
   const ul = useRef(null);
   const getPrevCursor = () =>
@@ -25,16 +22,10 @@ export default ({ history }) => {
     // arrow up/down button should select next/previous list element
     if (e.keyCode === 37) history.goBack();
     if (e.keyCode === 38) {
-      console.log(choices[cursor]);
-      playSound();
       setCursor(getPrevCursor());
-      console.log(choices[cursor]);
       setHighScores(getHighscores(choices[getPrevCursor()]));
     } else if (e.keyCode === 40) {
-      playSound();
-      console.log(choices[cursor]);
       setCursor(getNextCursor());
-      console.log(choices[cursor]);
       setHighScores(getHighscores(choices[getNextCursor()]));
     } else if (e.keyCode === 39) {
       setGameMode(choices[cursor]);
@@ -44,13 +35,9 @@ export default ({ history }) => {
   useEffect(() => {
     ul.current.focus();
   }, [ul]);
-  const playSound = () => {
-    setMoveSoundStatus(Sound.status.PLAYING);
-  };
 
   return (
     <>
-      <Sound url={moveSound} playStatus={moveSoundStatus} />
       <div
         tabIndex="0"
         className="vertical-selection gameMode-selection"

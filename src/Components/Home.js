@@ -12,19 +12,28 @@ export default ({ history }) => {
       setGo(true);
     }, 1000);
   }, [go]);
+  useEffect(() => {
+    const music = new Audio(introMusic);
+    music.play().catch(error => {
+      console.log(error);
+    });
+    // music.loop = true;
+    music.onended = startNextTrack(music);
+  });
   const navigate = () => {
     history.push('/game/game-modes');
   };
-  const startNextTrack = () => {
+  const startNextTrack = music => () => {
+    music.pause();
     setNextTrack(Sound.status.PLAYING);
   };
   return (
     <>
-      <Sound
+      {/* <Sound
         url={introMusic}
         playStatus={Sound.status.PLAYING}
         onFinishedPlaying={startNextTrack}
-      />
+      /> */}
       <Sound url={music} playStatus={nextTrack} loop autoLoad />
       <div className="container" tabIndex="0" onKeyDown={navigate}>
         <div className={go ? 'beth on' : 'beth off'} />
