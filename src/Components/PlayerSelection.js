@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
-import Logo from './Logo';
 import { SettingsContext } from '../SettingsContext';
 import basketball from '../img/Basketball.png';
 import classnames from 'classnames';
@@ -14,7 +13,7 @@ export default ({ history }) => {
       setCursor((cursor + 1) % 2);
     } else if (e.keyCode === 39) {
       setPlayers(cursor + 1);
-      history.push(`/players/${cursor + 1}`);
+      history.push(`/game/players/${cursor + 1}`);
     } else if (e.keyCode === 37) {
       setPlayers(cursor + 1);
       history.goBack();
@@ -25,8 +24,7 @@ export default ({ history }) => {
   }, [ul]);
 
   return (
-    <div className="container">
-      <Logo />
+    <>
       <p className="gameMode">{gameMode}</p>
       <p>Players</p>
       <div ref={ul} tabIndex="0" className="players" onKeyDown={handleKeyDown}>
@@ -42,6 +40,6 @@ export default ({ history }) => {
           {cursor === 1 && <img alt="basketball" src={basketball} />}
         </div>
       </div>
-    </div>
+    </>
   );
 };

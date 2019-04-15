@@ -1,6 +1,5 @@
 import React, { useEffect, useContext, useRef } from 'react';
 import { SettingsContext } from '../SettingsContext';
-import Logo from './Logo';
 import basketball from '../img/Basketball.png';
 export default ({ history }) => {
   const { time, initials, gameMode } = useContext(SettingsContext);
@@ -19,8 +18,7 @@ export default ({ history }) => {
   }, [ul]);
 
   return (
-    <div className="container">
-      <Logo />
+    <>
       <p className="gameMode">{gameMode}</p>
       <div
         tabIndex="0"
@@ -29,10 +27,10 @@ export default ({ history }) => {
         onKeyDown={handleKeyDown}
       >
         <div className="conf-group">
-          <p className="initial-letters">
+          <div className="initial-letters">
             {initials[0]}
             <p className="small">1P</p>
-          </p>
+          </div>
           {initials.length > 1 && (
             <>
               <p className="small vs">vs</p>
@@ -51,6 +49,6 @@ export default ({ history }) => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
