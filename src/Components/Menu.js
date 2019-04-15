@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import GameMode from './GameMode';
 import Players from './Players';
@@ -7,26 +7,14 @@ import Confirmation from './Confirmation';
 import PlayerSelection from './PlayerSelection';
 import Logo from './Logo';
 import menuMusic from '../sounds/3 Menu Music.wav';
-import useKey from 'use-key-hook';
-import moveSound from '../sounds/sfx_menu_move4.wav';
-import selectSound from '../sounds/sfx_menu_select1.wav';
-
+import useMenu from '../utilities/useMenu';
 export default ({ match }) => {
-  const selectAudio = new Audio(selectSound);
-  const moveAudio = new Audio(moveSound);
-  useEffect(() => {
-    const music = new Audio(menuMusic);
-    // music.play();
-    music.loop = true;
-  });
-  useKey(usedKey => {
-    if (usedKey === 37 || usedKey === 39) selectAudio.play();
-    if (usedKey === 38 || usedKey === 40) {
-      moveAudio.play();
-    }
-  });
+  const [moveAudio, selectAudio, musicAudio] = useMenu(menuMusic);
   return (
     <>
+      {moveAudio}
+      {selectAudio}
+      {musicAudio}
       <div className="container">
         <Logo />
         <Switch>

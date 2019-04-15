@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.scss';
 import { Route } from 'react-router-dom';
-import Home from './Components/Home';
+import HomeAudio from './Components/Home';
 import HighScores from './Components/HighScores';
 import End from './Components/End';
 import GamePlay from './Components/GamePlay';
@@ -19,7 +19,7 @@ class App extends Component {
       <div className="App">
         <div className="background" />
         <SettingStore>
-          <Route path="/" exact component={Home} />
+          <Route path="/" exact component={HomeAudio} />
           <Route path="/game/:any*" component={Menu} />
           <Route path="/game-play" exact component={GamePlay} />
           <Route path="/game-over" exact component={End} />
