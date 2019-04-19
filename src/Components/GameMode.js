@@ -7,7 +7,14 @@ import highScoresLabel from '../img/highScoresLabel.png';
 import { getHighscores } from '../utilities/highscores';
 export default ({ history }) => {
   const { gameMode, setGameMode } = useContext(SettingsContext);
-  const choices = ['Free For All', 'Knockout', '3 pt shootout'];
+  const choices = [
+    'Classic',
+    'Crisscross',
+    'Skeet Shooting',
+    'Sharp Shooter',
+    'Double or Nothing',
+    'Team'
+  ];
   let index = choices.indexOf(gameMode);
   index = index > 0 ? index : 0;
   const [cursor, setCursor] = useState(index);
