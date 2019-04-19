@@ -5,19 +5,15 @@ import moveSound from '../sounds/sfx_menu_move4.wav';
 import selectSound from '../sounds/sfx_menu_select1.wav';
 import { useAudio } from 'react-use';
 
-export default music => {
+export default () => {
   const [moveAudio, _, moveControls] = useAudio({ src: moveSound });
   const [selectAudio, __, selectControls] = useAudio({ src: selectSound });
-  const [musicAudio] = useAudio({
-    src: music,
-    autoPlay: true,
-    loop: true
-  });
+
   useKey(usedKey => {
     if (usedKey === 37 || usedKey === 39) selectControls.play();
     if (usedKey === 38 || usedKey === 40) {
       moveControls.play();
     }
   });
-  return [moveAudio, selectAudio, musicAudio];
+  return [moveAudio, selectAudio];
 };

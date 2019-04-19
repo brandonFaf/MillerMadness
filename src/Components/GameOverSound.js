@@ -1,20 +1,13 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
-import GameMode from './GameMode';
-import Players from './Players';
-import Time from './Time';
-import Confirmation from './Confirmation';
-import PlayerSelection from './PlayerSelection';
-import Logo from './Logo';
-import menuMusic from '../sounds/3 Menu Music.wav';
-import MenuSounds from './MenuSounds';
+import music from '../sounds/8 Game Over.wav';
+import End from './End';
 
-export default class Menu extends Component {
+class GameOverSound extends Component {
   state = {
     source: null
   };
   componentDidMount = () => {
-    var url = menuMusic;
+    var url = music;
 
     /* --- set up web audio --- */
     //create the context
@@ -47,40 +40,16 @@ export default class Menu extends Component {
         }
       );
     };
-    this.setState({ source });
     //Now that the request has been defined, actually make the request. (send it)
     request.send();
+    this.setState({ source });
   };
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     this.state.source.stop();
-  };
+  }
   render() {
-    const { match } = this.props;
-    return (
-      <>
-        <MenuSounds />
-        <div className="container">
-          <Logo />
-          <Switch>
-            <Route path={`${match.path}/game-modes`} component={GameMode} />
-            <Route
-              path={`${match.path}/players`}
-              exact
-              component={PlayerSelection}
-            />
-            <Route
-              path={`${match.path}/players/:players/`}
-              exact
-              component={Players}
-            />
-            <Route path={`${match.path}/time`} component={Time} />
-            <Route
-              path={`${match.path}/confirmation`}
-              component={Confirmation}
-            />
-          </Switch>
-        </div>
-      </>
-    );
+    return <End {...this.props} />;
   }
 }
+
+export default GameOverSound;

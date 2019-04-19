@@ -17,7 +17,7 @@
     grid-area: time;
     display: flex;
     flex-direction: column;
-    width: 560px;
+    width: 515px;
     align-items: center;
     justify-self: center;
     .seconds {
@@ -31,8 +31,10 @@
     flex-direction: column;
     align-items: center;
     .numbers {
+      text-align: center;
       font-size: 184px;
       margin-bottom: -35px;
+      width: 262px;
     }
   }
   .solo {

@@ -3,8 +3,8 @@ import { SettingsContext } from '../SettingsContext';
 import basketball from '../img/Basketball.png';
 import classnames from 'classnames';
 import { saveScore } from '../utilities/highscores';
-import music from '../sounds/8 Game Over.wav';
 import useMenu from '../utilities/useMenu';
+import logo from '../img/Logo-small.png';
 export default ({ history, ...props }) => {
   const { time, gameMode, initials, scores } = useContext(SettingsContext);
   const [highscore1, setHighscore1] = useState(false);
@@ -12,7 +12,7 @@ export default ({ history, ...props }) => {
   const [cursor, setCursor] = useState(0);
   const ul = useRef(null);
   const winner = scores.indexOf(Math.max(...scores));
-  const [moveAudio, selectAudio, musicAudio] = useMenu(music);
+  const [moveAudio, selectAudio] = useMenu();
   const handleKeyDown = e => {
     e.preventDefault();
     if (e.keyCode === 38 || e.keyCode === 40) {
@@ -37,14 +37,14 @@ export default ({ history, ...props }) => {
     <>
       {moveAudio}
       {selectAudio}
-      {musicAudio}
+      {/* {musicAudio} */}
 
       <div className="container">
         <div className={'beth'} />
         <div className={'travis'} />
 
         <div className="small-logo">
-          <img src="https://via.placeholder.com/196x64" alt="logo" />
+          <img src={logo} alt="logo" />
           <div>{gameMode}</div>
         </div>
         {initials.length === 1 ? (
@@ -80,7 +80,7 @@ export default ({ history, ...props }) => {
               <div
                 className={classnames('player-score', { winner: winner === 1 })}
               >
-                <p className="numbers">{scores[1]}</p>
+                <p className="numbers">{scores[1] || 0}</p>
                 <p className="small">{initials[1]}</p>
                 {highscore2 && <p className="small">HIGHSCORE</p>}
               </div>

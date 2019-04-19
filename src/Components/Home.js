@@ -3,6 +3,7 @@ import { useAudio } from 'react-use';
 import introMusic from '../sounds/1Intro.wav';
 import music from '../sounds/2 Start Screen.wav';
 import basketball from '../img/Basketball.png';
+import logo from '../img/Logo.png';
 export default ({ history }) => {
   const [go, setGo] = useState(false);
   // const audioRef = useRef();
@@ -37,7 +38,7 @@ export default ({ history }) => {
       <div className="container" tabIndex="0" onKeyDown={navigate}>
         <div className={go ? 'beth on' : 'beth off'} />
         <div className={go ? 'travis on' : 'travis off'} />
-        <div className="logo" />
+        <img className="logo-big" src={logo} alt="logo" />
         <div className="horizontal-selection start">
           <img alt="basketball" src={basketball} />
           <span className="selected"> Start </span>

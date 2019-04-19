@@ -3,10 +3,10 @@ import './App.scss';
 import { Route } from 'react-router-dom';
 import HomeAudio from './Components/Home';
 import HighScores from './Components/HighScores';
-import End from './Components/End';
 import GamePlay from './Components/GamePlay';
 import SettingStore from './SettingsContext';
 import Menu from './Components/Menu';
+import GameOverSound from './Components/GameOverSound';
 class App extends Component {
   state = { go: false };
   componentDidMount() {
@@ -22,7 +22,7 @@ class App extends Component {
           <Route path="/" exact component={HomeAudio} />
           <Route path="/game/:any*" component={Menu} />
           <Route path="/game-play" exact component={GamePlay} />
-          <Route path="/game-over" exact component={End} />
+          <Route path="/game-over" exact component={GameOverSound} />
           <Route path="/high-scores" exact component={HighScores} />
         </SettingStore>
       </div>

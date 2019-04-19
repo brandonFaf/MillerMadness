@@ -34,8 +34,10 @@ export default ({ history }) => {
           {initials.length > 1 && (
             <>
               <p className="small vs">vs</p>
-              <p className="initial-letters">{initials[1]}</p>
-              <p className="small">2P</p>
+              <div className="initial-letters">
+                {initials[1]}
+                <p className="small">2P</p>
+              </div>
             </>
           )}
         </div>
