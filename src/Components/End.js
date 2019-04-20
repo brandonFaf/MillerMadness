@@ -52,14 +52,16 @@ export default ({ history, ...props }) => {
             <div className="winner-text">TIME'S UP</div>
             <div className="final-score">
               <div className="player-score">
-                <p className="numbers">{scores[0]}</p>
+                <p className="numbers">{scores[0] || 0}</p>
                 <p className="small">{initials[0]}</p>
                 {highscore1 && <p className="small">HIGHSCORE</p>}
               </div>
-              <div className="player-score">
-                <p className="time">{time}</p>
-                <p className="small">SECONDS</p>
-              </div>
+              {gameMode !== 'Skeet Shooting' && (
+                <div className="player-score">
+                  <p className="time">{time}</p>
+                  <p className="small">SECONDS</p>
+                </div>
+              )}
             </div>
           </>
         ) : (
@@ -73,10 +75,12 @@ export default ({ history, ...props }) => {
                 <p className="small">{initials[0]}</p>
                 {highscore1 && <p className="small">HIGHSCORE</p>}
               </div>
-              <div className="player-score">
-                <p className="time">{time}</p>
-                <p className="small">SECONDS</p>
-              </div>
+              {gameMode !== 'Skeet Shooting' && (
+                <div className="player-score">
+                  <p className="time">{time}</p>
+                  <p className="small">SECONDS</p>
+                </div>
+              )}
               <div
                 className={classnames('player-score', { winner: winner === 1 })}
               >

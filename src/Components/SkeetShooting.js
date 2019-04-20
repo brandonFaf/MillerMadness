@@ -19,11 +19,11 @@ class SkeetShooting extends Component {
 
     this.state = {
       countdown: 3,
-      time: (props.settings.time || 300) + 3,
       players: props.settings.players,
       score1: 0,
       score2: 0,
-      gameMode: props.settings.gameMode
+      gameMode: props.settings.gameMode,
+      round: 0
     };
   }
   componentDidMount() {
@@ -43,18 +43,23 @@ class SkeetShooting extends Component {
     musicObj.onended = this.startNextTrack(musicObj);
 
     socket.on('player1', () => {
-      if (!this.props.CrissCross) {
-        this.updatePlayer('score1');
-      } else {
-        this.updatePlayer('score2');
-      }
+      // const time = new Date();
+      // const newSeconds = time.getSeconds();
+      // const newMilli = time.getMilliseconds();
+      // const { firedSeconds, firedMilli } = this.state;
+      // const isTooLate = newSeconds - firedSeconds > 3; //wrong
+      // if (time.getMilliseconds()) {
+      // } else {
+      // }
+      this.updatePlayer('score1');
+      console.log('to1', this.to1);
+      clearTimeout(this.to1);
     });
     socket.on('player2', () => {
-      if (!this.props.CrissCross && !this.props.Team) {
-        this.updatePlayer('score2');
-      } else {
-        this.updatePlayer('score1');
-      }
+      this.updatePlayer('score2');
+      console.log('to2', this.to2);
+
+      clearTimeout(this.to2);
     });
     blipTrack.play();
     this.countdown = setInterval(() => {
@@ -66,11 +71,56 @@ class SkeetShooting extends Component {
           };
         });
       } else {
+        this.startGame();
         clearInterval(this.countdown);
       }
     }, 1000);
-    this.startTimer();
   }
+  startGame = () => {
+    //say shoot
+    if (this.state.score1 !== 'X') {
+      this.to1 = setTimeout(() => {
+        this.miss(1);
+      }, 3000);
+    }
+    if (this.state.score2 !== 'X') {
+      this.to2 = setTimeout(() => {
+        this.miss(2);
+      }, 3000);
+    }
+    this.setState(state => {
+      let { round } = state;
+      round++;
+      return { round, go: true };
+    });
+    this.goTo = setTimeout(() => {
+      this.setState({ go: false });
+    }, 3000);
+
+    // this.setState({ firedSeconds: time.getSeconds(), firedMilli:time.getMilliseconds() });
+    var rand = Math.round(Math.random() * (10000 - 3000)) + 3000; // generate new time (between 10sec and 5sec)
+    this.to = setTimeout(this.startGame, rand);
+  };
+  miss = player => {
+    console.log('miss being called', player);
+    this.setState(
+      state => {
+        if (player === 1) {
+          console.log('saving', state.score1);
+          this.props.settings.setScores(state.score1);
+        } else {
+          console.log('saving', state.score2);
+          this.props.settings.setScores(null, state.score2);
+        }
+        return { [`score${player}`]: 'X' };
+      },
+      () => {
+        if (this.state.score1 === 'X' && this.state.score2 === 'X') {
+          this.props.history.push('/game-over');
+        }
+      }
+    );
+  };
   startNextTrack = prevMusic => () => {
     prevMusic.pause();
     var url = music;
@@ -110,26 +160,12 @@ class SkeetShooting extends Component {
     request.send();
     this.setState({ music: source });
   };
-  startTimer = () => {
-    const blipTrack = new Audio(blip);
-    this.timer = setInterval(() => {
-      if (this.state.time <= 6 && this.state.time !== 0) {
-        blipTrack.play();
-      }
-      if (this.state.time > 0) {
-        this.setState(prevState => {
-          return {
-            time: --prevState.time
-          };
-        });
-      } else {
-        this.props.settings.setScores(this.state.score1, this.state.score2);
-        this.props.history.push('/game-over');
-      }
-    }, 1000);
-  };
+
   componentWillUnmount() {
-    clearInterval(this.timer);
+    clearTimeout(this.to);
+    clearTimeout(this.to1);
+    clearTimeout(this.to2);
+    clearTimeout(this.goTo);
     this.state.music.stop();
     console.log('clearing timer');
   }
@@ -140,17 +176,29 @@ class SkeetShooting extends Component {
     if (this.state.countdown <= 0) {
       if (this.state.time < 10) {
         this.state.powerupTrack.play();
-      } else {
-        this.state.sounds[Math.floor(Math.random() * 3)].play();
       }
-      this.setState(state => ({ [score]: state[score] + 1 }));
+
+      this.setState(state => {
+        let playerScore = state[score];
+
+        if (state[score] !== 'X' && state.go) {
+          playerScore = state.round;
+        }
+
+        return { [score]: playerScore };
+      });
     }
   };
   player1 = () => {
     this.updatePlayer('score1');
+    console.log('to1', this.to1);
+    clearTimeout(this.to1);
   };
   player2 = () => {
     this.updatePlayer('score2');
+    console.log('to2', this.to2);
+
+    clearTimeout(this.to2);
   };
   render() {
     const { settings } = this.props;
@@ -162,8 +210,7 @@ class SkeetShooting extends Component {
         {this.state.countdown > 0 && this.renderCountdown()}
         <div className="gameplay">
           <div className="time">
-            <div className="seconds">{this.state.time}</div>
-            <div>seconds</div>
+            <div className="seconds">{this.state.go && 'SHOOT'}</div>
           </div>
           <div
             className={classNames('score', {

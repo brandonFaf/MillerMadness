@@ -12,14 +12,22 @@ export default ({
   const goNext = player => {
     if (+players === 1) {
       context.setInitials(player, 1);
-      history.push('/game/time');
+      if (context.gameMode === 'Skeet Shooting') {
+        history.push('/game/confirmation');
+      } else {
+        history.push(`/game/time`);
+      }
     } else {
       if (activePlayer === 1) {
         setPlayer(player => ++player);
         context.setInitials(player, 1);
       } else {
         context.setInitials(player, 2);
-        history.push(`/game/time`);
+        if (context.gameMode === 'Skeet Shooting') {
+          history.push('/game/confirmation');
+        } else {
+          history.push(`/game/time`);
+        }
       }
     }
   };

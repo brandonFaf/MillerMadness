@@ -8,8 +8,8 @@ export default class SettingsStore extends React.Component {
       players: 1,
       initials: [],
       scores: [],
-      time: 0,
-      gameMode: 'KNOCK OUT',
+      time: 100,
+      gameMode: 'Skeet Shooting',
       setInitials: this.setInitials,
       setTime: this.setTime,
       setGameMode: this.setGameMode,
@@ -28,9 +28,21 @@ export default class SettingsStore extends React.Component {
   };
   setScores = (score1, score2) => {
     if (score2) {
-      this.setState({ scores: [score1, score2] });
+      if (score1) {
+        this.setState({ scores: [score1, score2] });
+      } else {
+        this.setState(state => {
+          let score0 = state.scores[0] || 0;
+          return { scores: [score0, score2] };
+        });
+      }
     } else {
-      this.setState({ scores: [score1] });
+      this.setState(state => {
+        if (state.scores.length > 1) {
+          return { scores: [score1, state.scores[1]] };
+        }
+        return { scores: [score1] };
+      });
     }
   };
   setTime = time => {

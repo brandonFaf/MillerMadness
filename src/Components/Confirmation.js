@@ -42,8 +42,12 @@ export default ({ history }) => {
           )}
         </div>
         <div className="conf-group">
-          <p>{time}</p>
-          <p className="small">seconds</p>
+          {gameMode !== 'Skeet Shooting' && (
+            <>
+              <p>{time}</p>
+              <p className="small">seconds</p>
+            </>
+          )}
           <div className="horizontal-selection">
             <img alt="basketball" src={basketball} />
             <span className="selected">Start</span>
