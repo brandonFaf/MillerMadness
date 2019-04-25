@@ -56,7 +56,7 @@ export default ({ history, ...props }) => {
                 <p className="small">{initials[0]}</p>
                 {highscore1 && <p className="small">HIGHSCORE</p>}
               </div>
-              {gameMode !== 'Skeet Shooting' && (
+              {gameMode.indexOf('Skeet Shooting') < 0 && (
                 <div className="player-score">
                   <p className="time">{time}</p>
                   <p className="small">SECONDS</p>
@@ -75,7 +75,7 @@ export default ({ history, ...props }) => {
                 <p className="small">{initials[0]}</p>
                 {highscore1 && <p className="small">HIGHSCORE</p>}
               </div>
-              {gameMode !== 'Skeet Shooting' && (
+              {gameMode.indexOf('Skeet Shooting') < 0 && (
                 <div className="player-score">
                   <p className="time">{time}</p>
                   <p className="small">SECONDS</p>

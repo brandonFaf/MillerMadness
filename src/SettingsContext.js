@@ -9,7 +9,7 @@ export default class SettingsStore extends React.Component {
       initials: [],
       scores: [],
       time: 100,
-      gameMode: 'Skeet Shooting',
+      gameMode: 'Classic',
       setInitials: this.setInitials,
       setTime: this.setTime,
       setGameMode: this.setGameMode,

@@ -42,7 +42,7 @@ export default ({ history }) => {
           )}
         </div>
         <div className="conf-group">
-          {gameMode !== 'Skeet Shooting' && (
+          {gameMode.indexOf('Skeet Shooting') < 0 && (
             <>
               <p>{time}</p>
               <p className="small">seconds</p>

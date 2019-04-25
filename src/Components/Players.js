@@ -12,7 +12,7 @@ export default ({
   const goNext = player => {
     if (+players === 1) {
       context.setInitials(player, 1);
-      if (context.gameMode === 'Skeet Shooting') {
+      if (context.gameMode.indexOf('Skeet Shooting') > -1) {
         history.push('/game/confirmation');
       } else {
         history.push(`/game/time`);
@@ -23,7 +23,7 @@ export default ({
         context.setInitials(player, 1);
       } else {
         context.setInitials(player, 2);
-        if (context.gameMode === 'Skeet Shooting') {
+        if (context.gameMode.indexOf('Skeet Shooting') > -1) {
           history.push('/game/confirmation');
         } else {
           history.push(`/game/time`);

@@ -6,11 +6,12 @@ import down from '../img/down.png';
 import highScoresLabel from '../img/highScoresLabel.png';
 import { getHighscores } from '../utilities/highscores';
 export default ({ history }) => {
-  const { gameMode, setGameMode } = useContext(SettingsContext);
+  const { gameMode, setGameMode, setPlayers } = useContext(SettingsContext);
   const choices = [
     'Classic',
     'Crisscross',
     'Skeet Shooting',
+    'Skeet Shooting Team',
     'Sharp Shooter',
     'Double or Nothing',
     'Team'
@@ -35,8 +36,14 @@ export default ({ history }) => {
       setCursor(getNextCursor());
       setHighScores(getHighscores(choices[getNextCursor()]));
     } else if (e.keyCode === 39) {
-      setGameMode(choices[cursor]);
-      history.push(`/game/players`);
+      const gameMode = choices[cursor];
+      setGameMode(gameMode);
+      if (gameMode.indexOf('Team') > -1) {
+        setPlayers(2);
+        history.push(`/game/players/2`);
+      } else {
+        history.push(`/game/players`);
+      }
     }
   };
   useEffect(() => {
