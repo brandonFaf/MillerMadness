@@ -8,7 +8,7 @@ import PlayerSelection from './PlayerSelection';
 import Logo from './Logo';
 import menuMusic from '../sounds/3 Menu Music.wav';
 import MenuSounds from './MenuSounds';
-
+import context from '../utilities/soundContext';
 export default class Menu extends Component {
   state = {
     source: null
@@ -18,7 +18,7 @@ export default class Menu extends Component {
 
     /* --- set up web audio --- */
     //create the context
-    var context = new AudioContext();
+
     //...and the source
     var source = context.createBufferSource();
     //connect it to the destination so you can hear it.

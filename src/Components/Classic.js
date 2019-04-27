@@ -11,6 +11,7 @@ import fanfare2 from '../sounds/sfx_sounds_fanfare2.wav';
 import fanfare3 from '../sounds/sfx_sounds_fanfare3.wav';
 import powerup from '../sounds/sfx_sounds_powerup18.wav';
 import logo from '../img/Logo-small.png';
+import soundContext from '../utilities/soundContext';
 const socket = openSocket('http://localhost:3001');
 
 class Classic extends Component {
@@ -76,12 +77,10 @@ class Classic extends Component {
     var url = music;
 
     /* --- set up web audio --- */
-    //create the context
-    var context = new AudioContext();
     //...and the source
-    var source = context.createBufferSource();
+    var source = soundContext.createBufferSource();
     //connect it to the destination so you can hear it.
-    source.connect(context.destination);
+    source.connect(soundContext.destination);
 
     /* --- load buffer ---  */
     var request = new XMLHttpRequest();
@@ -91,7 +90,7 @@ class Classic extends Component {
     request.responseType = 'arraybuffer';
     //Once the request has completed... do this
     request.onload = function() {
-      context.decodeAudioData(
+      soundContext.decodeAudioData(
         request.response,
         function(response) {
           /* --- play the sound AFTER the buffer loaded --- */

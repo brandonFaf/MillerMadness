@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import music from '../sounds/8 Game Over.wav';
 import End from './End';
+import context from '../utilities/soundContext';
 
 class GameOverSound extends Component {
   state = {
@@ -10,8 +11,6 @@ class GameOverSound extends Component {
     var url = music;
 
     /* --- set up web audio --- */
-    //create the context
-    var context = new AudioContext();
     //...and the source
     var source = context.createBufferSource();
     //connect it to the destination so you can hear it.

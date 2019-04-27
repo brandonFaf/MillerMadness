@@ -11,6 +11,7 @@ import fanfare2 from '../sounds/sfx_sounds_fanfare2.wav';
 import fanfare3 from '../sounds/sfx_sounds_fanfare3.wav';
 import powerup from '../sounds/sfx_sounds_powerup18.wav';
 import logo from '../img/Logo-small.png';
+import context from '../utilities/soundContext';
 const socket = openSocket('http://localhost:3001');
 
 class SkeetShooting extends Component {
@@ -126,8 +127,6 @@ class SkeetShooting extends Component {
     var url = music;
 
     /* --- set up web audio --- */
-    //create the context
-    var context = new AudioContext();
     //...and the source
     var source = context.createBufferSource();
     //connect it to the destination so you can hear it.
