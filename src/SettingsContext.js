@@ -14,9 +14,14 @@ export default class SettingsStore extends React.Component {
       setTime: this.setTime,
       setGameMode: this.setGameMode,
       setScores: this.setScores,
-      setPlayers: this.setPlayers
+      setPlayers: this.setPlayers,
+      sound: true,
+      setSound: this.setSound
     };
   }
+  setSound = () => {
+    this.setState({ sound: !this.state.sound });
+  };
   setPlayers = players => {
     if (players === 1) {
       const [player] = this.state.initials;

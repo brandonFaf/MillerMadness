@@ -9,16 +9,15 @@ import Logo from './Logo';
 import menuMusic from '../sounds/3 Menu Music.wav';
 import MenuSounds from './MenuSounds';
 import context from '../utilities/soundContext';
-export default class Menu extends Component {
+import { SettingsContext } from '../SettingsContext';
+class Menu extends Component {
   state = {
     source: null,
-    map: {}
+    map: {},
+    playing: true
   };
   componentDidMount = () => {
     var url = menuMusic;
-
-    /* --- set up web audio --- */
-    //create the context
 
     //...and the source
     var source = context.createBufferSource();
@@ -48,7 +47,7 @@ export default class Menu extends Component {
         }
       );
     };
-    this.setState({ source });
+    this.setState({ source, playing: this.props.settings.sound });
     //Now that the request has been defined, actually make the request. (send it)
     request.send();
   };
@@ -56,16 +55,23 @@ export default class Menu extends Component {
     this.state.source.stop();
   };
   onKey = e => {
-    const { map } = this.state;
+    const { setSound } = this.props.settings;
+    let { map, playing } = this.state;
     console.log(map);
     map[e.keyCode] = e.type === 'keydown';
-    if (map[37] && map[38]) {
-      context.suspend();
+
+    if (map[38] && map[40]) {
+      setSound();
+      if (playing) {
+        console.log('mute');
+        context.suspend();
+      } else {
+        console.log('un-mute');
+        context.resume();
+      }
+      playing = !playing;
     }
-    if (map[37] && map[40]) {
-      context.resume();
-    }
-    this.setState({ map });
+    this.setState({ map, playing });
   };
   render() {
     const { match } = this.props;
@@ -97,3 +103,12 @@ export default class Menu extends Component {
     );
   }
 }
+
+const MenuConntected = props => {
+  return (
+    <SettingsContext.Consumer>
+      {settings => <Menu settings={settings} {...props} />}
+    </SettingsContext.Consumer>
+  );
+};
+export default MenuConntected;
