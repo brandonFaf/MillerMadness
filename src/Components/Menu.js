@@ -11,7 +11,8 @@ import MenuSounds from './MenuSounds';
 import context from '../utilities/soundContext';
 export default class Menu extends Component {
   state = {
-    source: null
+    source: null,
+    map: {}
   };
   componentDidMount = () => {
     var url = menuMusic;
@@ -54,12 +55,24 @@ export default class Menu extends Component {
   componentWillUnmount = () => {
     this.state.source.stop();
   };
+  onKey = e => {
+    const { map } = this.state;
+    console.log(map);
+    map[e.keyCode] = e.type === 'keydown';
+    if (map[37] && map[38]) {
+      context.suspend();
+    }
+    if (map[37] && map[40]) {
+      context.resume();
+    }
+    this.setState({ map });
+  };
   render() {
     const { match } = this.props;
     return (
       <>
         <MenuSounds />
-        <div className="container">
+        <div className="container" onKeyDown={this.onKey} onKeyUp={this.onKey}>
           <Logo />
           <Switch>
             <Route path={`${match.path}/game-modes`} component={GameMode} />
