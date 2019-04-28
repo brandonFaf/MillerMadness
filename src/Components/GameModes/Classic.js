@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
-import { SettingsContext } from '../SettingsContext';
+import { SettingsContext } from '../../SettingsContext';
 import openSocket from 'socket.io-client';
 import classNames from 'classnames';
-import './gameplay.scss';
-import introMusic from '../sounds/4 Count down.wav';
-import music from '../sounds/5 Game Play Loop (1).wav';
-import blip from '../sounds/sfx_sounds_Blip6.wav';
-import fanfare from '../sounds/sfx_sounds_fanfare1.wav';
-import fanfare2 from '../sounds/sfx_sounds_fanfare2.wav';
-import fanfare3 from '../sounds/sfx_sounds_fanfare3.wav';
-import powerup from '../sounds/sfx_sounds_powerup18.wav';
-import logo from '../img/Logo-small.png';
-import soundContext from '../utilities/soundContext';
+import './../gameplay.scss';
+import fanfare from '../../sounds/sfx_sounds_fanfare1.wav';
+import fanfare2 from '../../sounds/sfx_sounds_fanfare2.wav';
+import fanfare3 from '../../sounds/sfx_sounds_fanfare3.wav';
+import powerup from '../../sounds/sfx_sounds_powerup18.wav';
+import logo from '../../img/Logo-small.png';
+import blip from '../../sounds/sfx_sounds_Blip6.wav';
 const socket = openSocket('http://localhost:3001');
 
 class Classic extends Component {
@@ -19,18 +16,14 @@ class Classic extends Component {
     super(props);
 
     this.state = {
-      countdown: 3,
-      time: (props.settings.time || 300) + 3,
       players: props.settings.players,
       score1: 0,
+      time: (props.settings.time || 300) + 3,
       score2: 0,
       gameMode: props.settings.gameMode
     };
   }
   componentDidMount() {
-    const musicObj = new Audio(introMusic);
-    // const nextTrack = new Audio(music);
-    const blipTrack = new Audio(blip);
     const fanfareTrack = new Audio(fanfare);
     const fanfare2Track = new Audio(fanfare2);
     const fanfare3Track = new Audio(fanfare3);
@@ -40,8 +33,6 @@ class Classic extends Component {
       powerupTrack,
       sounds
     });
-    musicObj.play();
-    musicObj.onended = this.startNextTrack(musicObj);
 
     socket.on('player1', () => {
       if (!this.props.CrissCross) {
@@ -57,62 +48,16 @@ class Classic extends Component {
         this.updatePlayer('score1');
       }
     });
-    blipTrack.play();
-    this.countdown = setInterval(() => {
-      if (this.state.countdown >= 1) blipTrack.play();
-      if (this.state.countdown > 0) {
-        this.setState(prevState => {
-          return {
-            countdown: --prevState.countdown
-          };
-        });
-      } else {
-        clearInterval(this.countdown);
-      }
-    }, 1000);
     this.startTimer();
   }
-  startNextTrack = prevMusic => () => {
-    prevMusic.pause();
-    var url = music;
-
-    /* --- set up web audio --- */
-    //...and the source
-    var source = soundContext.createBufferSource();
-    //connect it to the destination so you can hear it.
-    source.connect(soundContext.destination);
-
-    /* --- load buffer ---  */
-    var request = new XMLHttpRequest();
-    //open the request
-    request.open('GET', url, true);
-    //webaudio paramaters
-    request.responseType = 'arraybuffer';
-    //Once the request has completed... do this
-    request.onload = function() {
-      soundContext.decodeAudioData(
-        request.response,
-        function(response) {
-          /* --- play the sound AFTER the buffer loaded --- */
-          //set the buffer to the response we just received.
-          source.buffer = response;
-          //start(0) should play asap.
-          source.start(0);
-          source.loop = true;
-        },
-        function() {
-          console.error('The request failed.');
-        }
-      );
-    };
-    //Now that the request has been defined, actually make the request. (send it)
-    request.send();
-    this.setState({ music: source });
-  };
   startTimer = () => {
     const blipTrack = new Audio(blip);
     this.timer = setInterval(() => {
-      if (this.state.time <= 6 && this.state.time !== 0) {
+      if (
+        this.state.time <= 6 &&
+        this.state.time !== 0 &&
+        this.props.settings.sound
+      ) {
         blipTrack.play();
       }
       if (this.state.time > 0) {
@@ -127,23 +72,15 @@ class Classic extends Component {
       }
     }, 1000);
   };
-  componentWillUnmount() {
-    clearInterval(this.timer);
-    this.state.music.stop();
-    console.log('clearing timer');
-  }
-  renderCountdown = () => {
-    return <div className="countdown">{this.state.countdown}</div>;
-  };
   updatePlayer = score => {
-    if (this.state.countdown <= 0) {
+    if (this.props.settings.sound) {
       if (this.state.time < 10) {
         this.state.powerupTrack.play();
       } else {
         this.state.sounds[Math.floor(Math.random() * 3)].play();
       }
-      this.setState(state => ({ [score]: state[score] + 1 }));
     }
+    this.setState(state => ({ [score]: state[score] + 1 }));
   };
   player1 = () => {
     this.updatePlayer('score1');
@@ -151,14 +88,17 @@ class Classic extends Component {
   player2 = () => {
     this.updatePlayer('score2');
   };
+  componentWillUnmount() {
+    clearInterval(this.timer);
+    console.log('clearing timer');
+  }
   render() {
     const { settings } = this.props;
 
     return (
-      <div>
+      <>
         <button onClick={this.player1}>Player1</button>
         <button onClick={this.player2}>Player2</button>
-        {this.state.countdown > 0 && this.renderCountdown()}
         <div className="gameplay">
           <div className="time">
             <div className="seconds">{this.state.time}</div>
@@ -186,7 +126,7 @@ class Classic extends Component {
             </div>
           )}
         </div>
-      </div>
+      </>
     );
   }
 }

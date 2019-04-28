@@ -6,7 +6,9 @@ import { saveScore } from '../utilities/highscores';
 import useMenu from '../utilities/useMenu';
 import logo from '../img/Logo-small.png';
 export default ({ history, ...props }) => {
-  const { time, gameMode, initials, scores } = useContext(SettingsContext);
+  const { time, gameMode, initials, scores, sound } = useContext(
+    SettingsContext
+  );
   const [highscore1, setHighscore1] = useState(false);
   const [highscore2, setHighscore2] = useState(false);
   const [cursor, setCursor] = useState(0);
@@ -35,8 +37,15 @@ export default ({ history, ...props }) => {
 
   return (
     <>
-      {moveAudio}
-      {selectAudio}
+      {sound ? (
+        <>
+          {moveAudio}
+          {selectAudio}{' '}
+        </>
+      ) : (
+        <></>
+      )}
+
       {/* {musicAudio} */}
 
       <div className="container">

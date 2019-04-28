@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import { SettingsContext } from '../SettingsContext';
+import { SettingsContext } from '../../SettingsContext';
 import openSocket from 'socket.io-client';
 import classNames from 'classnames';
-import './gameplay.scss';
-import introMusic from '../sounds/4 Count down.wav';
-import music from '../sounds/5 Game Play Loop (1).wav';
-import blip from '../sounds/sfx_sounds_Blip6.wav';
-import fanfare from '../sounds/sfx_sounds_fanfare1.wav';
-import fanfare2 from '../sounds/sfx_sounds_fanfare2.wav';
-import fanfare3 from '../sounds/sfx_sounds_fanfare3.wav';
-import powerup from '../sounds/sfx_sounds_powerup18.wav';
-import logo from '../img/Logo-small.png';
-import context from '../utilities/soundContext';
+import './../gameplay.scss';
+import introMusic from '../../sounds/4 Count down.wav';
+import music from '../../sounds/5 Game Play Loop (1).wav';
+import blip from '../../sounds/sfx_sounds_Blip6.wav';
+import fanfare from '../../sounds/sfx_sounds_fanfare1.wav';
+import fanfare2 from '../../sounds/sfx_sounds_fanfare2.wav';
+import fanfare3 from '../../sounds/sfx_sounds_fanfare3.wav';
+import powerup from '../../sounds/sfx_sounds_powerup18.wav';
+import logo from '../../img/Logo-small.png';
+import context from '../../utilities/soundContext';
 const socket = openSocket('http://localhost:3001');
 
-class SkeetShootingTeam extends Component {
+class SkeetShooting extends Component {
   constructor(props) {
     super(props);
 
@@ -44,10 +44,23 @@ class SkeetShootingTeam extends Component {
     musicObj.onended = this.startNextTrack(musicObj);
 
     socket.on('player1', () => {
-      this.player1();
+      // const time = new Date();
+      // const newSeconds = time.getSeconds();
+      // const newMilli = time.getMilliseconds();
+      // const { firedSeconds, firedMilli } = this.state;
+      // const isTooLate = newSeconds - firedSeconds > 3; //wrong
+      // if (time.getMilliseconds()) {
+      // } else {
+      // }
+      this.updatePlayer('score1');
+      console.log('to1', this.to1);
+      clearTimeout(this.to1);
     });
     socket.on('player2', () => {
-      this.player2();
+      this.updatePlayer('score2');
+      console.log('to2', this.to2);
+
+      clearTimeout(this.to2);
     });
     blipTrack.play();
     this.countdown = setInterval(() => {
@@ -66,23 +79,48 @@ class SkeetShootingTeam extends Component {
   }
   startGame = () => {
     //say shoot
-    this.setState({ go: true, player1: false, player2: false });
+    if (this.state.score1 !== 'X') {
+      this.to1 = setTimeout(() => {
+        this.miss(1);
+      }, 3000);
+    }
+    if (this.state.score2 !== 'X') {
+      this.to2 = setTimeout(() => {
+        this.miss(2);
+      }, 3000);
+    }
+    this.setState(state => {
+      let { round } = state;
+      round++;
+      return { round, go: true };
+    });
     this.goTo = setTimeout(() => {
       this.setState({ go: false });
-      this.checkMiss();
     }, 3000);
 
     // this.setState({ firedSeconds: time.getSeconds(), firedMilli:time.getMilliseconds() });
     var rand = Math.round(Math.random() * (10000 - 3000)) + 3000; // generate new time (between 10sec and 5sec)
     this.to = setTimeout(this.startGame, rand);
   };
-  checkMiss = () => {
-    const { player1, player2 } = this.state;
-    if (!(player1 || player2)) {
-      const { score1, score2 } = this.state;
-      this.props.settings.setScores(score1, score2);
-      this.props.history.push('/game-over');
-    }
+  miss = player => {
+    console.log('miss being called', player);
+    this.setState(
+      state => {
+        if (player === 1) {
+          console.log('saving', state.score1);
+          this.props.settings.setScores(state.score1);
+        } else {
+          console.log('saving', state.score2);
+          this.props.settings.setScores(null, state.score2);
+        }
+        return { [`score${player}`]: 'X' };
+      },
+      () => {
+        if (this.state.score1 === 'X' && this.state.score2 === 'X') {
+          this.props.history.push('/game-over');
+        }
+      }
+    );
   };
   startNextTrack = prevMusic => () => {
     prevMusic.pause();
@@ -124,6 +162,8 @@ class SkeetShootingTeam extends Component {
 
   componentWillUnmount() {
     clearTimeout(this.to);
+    clearTimeout(this.to1);
+    clearTimeout(this.to2);
     clearTimeout(this.goTo);
     this.state.music.stop();
     console.log('clearing timer');
@@ -131,28 +171,33 @@ class SkeetShootingTeam extends Component {
   renderCountdown = () => {
     return <div className="countdown">{this.state.countdown}</div>;
   };
-  updatePlayer = player => {
+  updatePlayer = score => {
     if (this.state.countdown <= 0) {
-      this.state.powerupTrack.play();
+      if (this.state.time < 10) {
+        this.state.powerupTrack.play();
+      }
 
       this.setState(state => {
-        let playerScore = state[`score${player}`];
-        if (state.go) {
-          playerScore++;
+        let playerScore = state[score];
+
+        if (state[score] !== 'X' && state.go) {
+          playerScore = state.round;
         }
-        return { [`player${player}`]: true, [`score${player}`]: playerScore };
+
+        return { [score]: playerScore };
       });
     }
   };
   player1 = () => {
-    if (!(this.state.player1 || this.state.player2)) {
-      this.updatePlayer(1);
-    }
+    this.updatePlayer('score1');
+    console.log('to1', this.to1);
+    clearTimeout(this.to1);
   };
   player2 = () => {
-    if (!(this.state.player1 || this.state.player2)) {
-      this.updatePlayer(2);
-    }
+    this.updatePlayer('score2');
+    console.log('to2', this.to2);
+
+    clearTimeout(this.to2);
   };
   render() {
     const { settings } = this.props;
@@ -196,7 +241,7 @@ class SkeetShootingTeam extends Component {
 const SkeetShootingConnected = props => {
   return (
     <SettingsContext.Consumer>
-      {settings => <SkeetShootingTeam settings={settings} {...props} />}
+      {settings => <SkeetShooting settings={settings} {...props} />}
     </SettingsContext.Consumer>
   );
 };
