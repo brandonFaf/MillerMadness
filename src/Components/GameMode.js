@@ -10,7 +10,7 @@ export default ({ history }) => {
   const choices = [
     'Classic',
     'Crisscross',
-    'Skeet Shooting',
+    'Strike Out',
     'Skeet Shooting Team',
     'Sharp Shooter',
     'Double or Nothing',
@@ -28,7 +28,7 @@ export default ({ history }) => {
     e.preventDefault();
     console.log(e.keyCode);
     // arrow up/down button should select next/previous list element
-    if (e.keyCode === 37) history.goBack();
+    if (e.keyCode === 37) history.push('/');
     if (e.keyCode === 38) {
       setCursor(getPrevCursor());
       setHighScores(getHighscores(choices[getPrevCursor()]));

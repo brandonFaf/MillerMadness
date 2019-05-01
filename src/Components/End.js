@@ -9,6 +9,8 @@ export default ({ history, ...props }) => {
   const { time, gameMode, initials, scores, sound } = useContext(
     SettingsContext
   );
+  const timelessModes = ['Team Skeet Shooting', 'Strike Out'];
+
   const [highscore1, setHighscore1] = useState(false);
   const [highscore2, setHighscore2] = useState(false);
   const [cursor, setCursor] = useState(0);
@@ -65,7 +67,7 @@ export default ({ history, ...props }) => {
                 <p className="small">{initials[0]}</p>
                 {highscore1 && <p className="small">HIGHSCORE</p>}
               </div>
-              {gameMode.indexOf('Skeet Shooting') < 0 && (
+              {!timelessModes.some(x => x === gameMode) && (
                 <div className="player-score">
                   <p className="time">{time}</p>
                   <p className="small">SECONDS</p>

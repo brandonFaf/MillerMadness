@@ -7,12 +7,13 @@ export default ({
     params: { players }
   }
 }) => {
+  const timelessModes = ['Team Skeet Shooting', 'Strike Out'];
   const [activePlayer, setPlayer] = useState(1);
   const context = useContext(SettingsContext);
   const goNext = player => {
     if (+players === 1) {
       context.setInitials(player, 1);
-      if (context.gameMode.indexOf('Skeet Shooting') > -1) {
+      if (timelessModes.some(x => x === context.gameMode)) {
         history.push('/game/confirmation');
       } else {
         history.push(`/game/time`);
@@ -23,7 +24,7 @@ export default ({
         context.setInitials(player, 1);
       } else {
         context.setInitials(player, 2);
-        if (context.gameMode.indexOf('Skeet Shooting') > -1) {
+        if (timelessModes.some(x => x === context.gameMode)) {
           history.push('/game/confirmation');
         } else {
           history.push(`/game/time`);

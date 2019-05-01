@@ -1,7 +1,7 @@
 import React from 'react';
 import { SettingsContext } from '../SettingsContext';
 import Classic from './GameModes/Classic';
-import SkeetShooting from './GameModes/SkeetShooting';
+import StrikeOut from './GameModes/StrikeOut';
 import SkeetShootingTeam from './GameModes/SkeetShootingTeam';
 import introMusic from '../sounds/4 Count down.wav';
 import blip from '../sounds/sfx_sounds_Blip6.wav';
@@ -90,8 +90,8 @@ class GamePlay extends React.Component {
         return <Classic {...this.props} />;
       case 'Crisscross':
         return <Classic CrissCross {...this.props} />;
-      case 'Skeet Shooting':
-        return <SkeetShooting {...this.props} />;
+      case 'Strike Out':
+        return <StrikeOut {...this.props} />;
       case 'Skeet Shooting Team':
         return <SkeetShootingTeam {...this.props} />;
       case 'Sharp Shooter':

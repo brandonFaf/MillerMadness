@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useRef } from 'react';
 import { SettingsContext } from '../SettingsContext';
 import basketball from '../img/Basketball.png';
 export default ({ history }) => {
+  const timelessModes = ['Team Skeet Shooting', 'Strike Out'];
   const { time, initials, gameMode } = useContext(SettingsContext);
   const ul = useRef(null);
   const handleKeyDown = e => {
@@ -42,7 +43,7 @@ export default ({ history }) => {
           )}
         </div>
         <div className="conf-group">
-          {gameMode.indexOf('Skeet Shooting') < 0 && (
+          {!timelessModes.some(x => x === gameMode) && (
             <>
               <p>{time}</p>
               <p className="small">seconds</p>

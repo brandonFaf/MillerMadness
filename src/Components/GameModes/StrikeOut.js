@@ -24,12 +24,13 @@ class SkeetShooting extends Component {
       score1: 0,
       score2: 0,
       gameMode: props.settings.gameMode,
-      round: 0
+      round: 0,
+      misses1: '',
+      misses2: ''
     };
   }
   componentDidMount() {
     const musicObj = new Audio(introMusic);
-    // const nextTrack = new Audio(music);
     const blipTrack = new Audio(blip);
     const fanfareTrack = new Audio(fanfare);
     const fanfare2Track = new Audio(fanfare2);
@@ -44,14 +45,6 @@ class SkeetShooting extends Component {
     musicObj.onended = this.startNextTrack(musicObj);
 
     socket.on('player1', () => {
-      // const time = new Date();
-      // const newSeconds = time.getSeconds();
-      // const newMilli = time.getMilliseconds();
-      // const { firedSeconds, firedMilli } = this.state;
-      // const isTooLate = newSeconds - firedSeconds > 3; //wrong
-      // if (time.getMilliseconds()) {
-      // } else {
-      // }
       this.updatePlayer('score1');
       console.log('to1', this.to1);
       clearTimeout(this.to1);
@@ -79,12 +72,12 @@ class SkeetShooting extends Component {
   }
   startGame = () => {
     //say shoot
-    if (this.state.score1 !== 'X') {
+    if (this.state.misses1 !== 'XXX') {
       this.to1 = setTimeout(() => {
         this.miss(1);
       }, 3000);
     }
-    if (this.state.score2 !== 'X') {
+    if (this.state.misses2 !== 'XXX') {
       this.to2 = setTimeout(() => {
         this.miss(2);
       }, 3000);
@@ -106,17 +99,18 @@ class SkeetShooting extends Component {
     console.log('miss being called', player);
     this.setState(
       state => {
-        if (player === 1) {
+        let misses = `${state[`misses${player}`]}X`;
+        if (player === 1 && misses === 'XXX') {
           console.log('saving', state.score1);
           this.props.settings.setScores(state.score1);
-        } else {
+        } else if (player === 2 && misses === 'XXX') {
           console.log('saving', state.score2);
           this.props.settings.setScores(null, state.score2);
         }
-        return { [`score${player}`]: 'X' };
+        return { [`misses${player}`]: misses };
       },
       () => {
-        if (this.state.score1 === 'X' && this.state.score2 === 'X') {
+        if (this.state.misses1 === 'XXX' && this.state.misses2 === 'XXX') {
           this.props.history.push('/game-over');
         }
       }
@@ -168,33 +162,26 @@ class SkeetShooting extends Component {
     this.state.music.stop();
     console.log('clearing timer');
   }
-  renderCountdown = () => {
-    return <div className="countdown">{this.state.countdown}</div>;
-  };
   updatePlayer = score => {
-    if (this.state.countdown <= 0) {
-      if (this.state.time < 10) {
-        this.state.powerupTrack.play();
+    this.state.powerupTrack.play();
+
+    this.setState(state => {
+      let playerScore = state[`score${score}`];
+      const misses = state[`misses${score}`];
+      if (misses !== 'XXX' && state.go) {
+        playerScore = state.round - misses.length;
       }
 
-      this.setState(state => {
-        let playerScore = state[score];
-
-        if (state[score] !== 'X' && state.go) {
-          playerScore = state.round;
-        }
-
-        return { [score]: playerScore };
-      });
-    }
+      return { [`score${score}`]: playerScore };
+    });
   };
   player1 = () => {
-    this.updatePlayer('score1');
+    this.updatePlayer(1);
     console.log('to1', this.to1);
     clearTimeout(this.to1);
   };
   player2 = () => {
-    this.updatePlayer('score2');
+    this.updatePlayer(2);
     console.log('to2', this.to2);
 
     clearTimeout(this.to2);
@@ -206,7 +193,6 @@ class SkeetShooting extends Component {
       <div>
         <button onClick={this.player1}>Player1</button>
         <button onClick={this.player2}>Player2</button>
-        {this.state.countdown > 0 && this.renderCountdown()}
         <div className="gameplay">
           <div className="time">
             <div className="seconds">{this.state.go && 'SHOOT'}</div>
@@ -219,6 +205,7 @@ class SkeetShooting extends Component {
           >
             {this.state.players === 2 && <div>{settings.initials[0]}</div>}
             <div className="numbers"> {this.state.score1}</div>
+            <div className="small red"> {this.state.misses1}</div>
             <div className="small">POINTS</div>
           </div>
           <div className="small-logo">
@@ -229,6 +216,7 @@ class SkeetShooting extends Component {
             <div className="score score-2">
               <div>{settings.initials[1]}</div>
               <div className="numbers"> {this.state.score2}</div>
+              <div className="small red"> {this.state.misses2}</div>
               <div className="small">POINTS</div>
             </div>
           )}
