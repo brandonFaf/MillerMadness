@@ -58,13 +58,17 @@ export default ({ history, ...props }) => {
           <img src={logo} alt="logo" />
           <div>{gameMode}</div>
         </div>
-        {initials.length === 1 ? (
+        {initials.length === 1 || gameMode === 'Team' ? (
           <>
             <div className="winner-text">TIME'S UP</div>
             <div className="final-score">
               <div className="player-score">
                 <p className="numbers">{scores[0] || 0}</p>
-                <p className="small">{initials[0]}</p>
+                {gameMode === 'Team' ? (
+                  <p className="small">{`${initials[0]} & ${initials[1]}`}</p>
+                ) : (
+                  <p className="small">{initials[0]}</p>
+                )}
                 {highscore1 && <p className="small">HIGHSCORE</p>}
               </div>
               {!timelessModes.some(x => x === gameMode) && (

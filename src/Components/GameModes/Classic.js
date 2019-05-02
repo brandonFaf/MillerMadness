@@ -35,18 +35,10 @@ class Classic extends Component {
     });
 
     socket.on('player1', () => {
-      if (!this.props.CrissCross) {
-        this.updatePlayer('score1');
-      } else {
-        this.updatePlayer('score2');
-      }
+      this.player1();
     });
     socket.on('player2', () => {
-      if (!this.props.CrissCross && !this.props.Team) {
-        this.updatePlayer('score2');
-      } else {
-        this.updatePlayer('score1');
-      }
+      this.player2();
     });
     this.startTimer();
   }
@@ -83,10 +75,18 @@ class Classic extends Component {
     this.setState(state => ({ [score]: state[score] + 1 }));
   };
   player1 = () => {
-    this.updatePlayer('score1');
+    if (!this.props.CrissCross) {
+      this.updatePlayer('score1');
+    } else {
+      this.updatePlayer('score2');
+    }
   };
   player2 = () => {
-    this.updatePlayer('score2');
+    if (!this.props.CrissCross && !this.props.Team) {
+      this.updatePlayer('score2');
+    } else {
+      this.updatePlayer('score1');
+    }
   };
   componentWillUnmount() {
     clearInterval(this.timer);
@@ -106,11 +106,13 @@ class Classic extends Component {
           </div>
           <div
             className={classNames('score', {
-              solo: this.state.players === 1,
-              'score-1': this.state.players === 2
+              solo: this.state.players === 1 || this.props.Team,
+              'score-1': this.state.players === 2 && !this.props.Team
             })}
           >
-            {this.state.players === 2 && <div>{settings.initials[0]}</div>}
+            {this.state.players === 2 && !this.props.Team && (
+              <div>{settings.initials[0]}</div>
+            )}
             <div className="numbers"> {this.state.score1}</div>
             <div className="small">POINTS</div>
           </div>
@@ -118,7 +120,7 @@ class Classic extends Component {
             <img src={logo} alt="logo" />
             <div>{this.state.gameMode}</div>
           </div>
-          {this.state.players > 1 && (
+          {this.state.players > 1 && !this.props.Team && (
             <div className="score score-2">
               <div>{settings.initials[1]}</div>
               <div className="numbers"> {this.state.score2}</div>
