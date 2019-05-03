@@ -72,7 +72,11 @@ class Classic extends Component {
         this.state.sounds[Math.floor(Math.random() * 3)].play();
       }
     }
-    this.setState(state => ({ [score]: state[score] + 1 }));
+    if (this.state.time < 10) {
+      this.setState(state => ({ [score]: state[score] + 3 }));
+    } else {
+      this.setState(state => ({ [score]: state[score] + 2 }));
+    }
   };
   player1 = () => {
     if (!this.props.CrissCross) {
