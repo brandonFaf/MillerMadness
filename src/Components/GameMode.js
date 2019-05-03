@@ -12,7 +12,6 @@ export default ({ history }) => {
     'Crisscross',
     'Strike Out',
     'Skeet Shooting Team',
-    'Sharp Shooter',
     'Double or Nothing',
     'Team'
   ];

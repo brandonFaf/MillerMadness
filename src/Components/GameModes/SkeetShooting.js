@@ -11,7 +11,7 @@ import logo from '../../img/Logo-small.png';
 
 const socket = openSocket('http://localhost:3001');
 
-class SkeetShootingTeam extends Component {
+class SkeetShooting extends Component {
   constructor(props) {
     super(props);
 
@@ -128,7 +128,7 @@ class SkeetShootingTeam extends Component {
 const SkeetShootingConnected = props => {
   return (
     <SettingsContext.Consumer>
-      {settings => <SkeetShootingTeam settings={settings} {...props} />}
+      {settings => <SkeetShooting settings={settings} {...props} />}
     </SettingsContext.Consumer>
   );
 };
