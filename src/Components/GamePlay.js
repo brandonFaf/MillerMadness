@@ -7,6 +7,7 @@ import introMusic from '../sounds/4 Count down.wav';
 import blip from '../sounds/sfx_sounds_Blip6.wav';
 import music from '../sounds/5 Game Play Loop (1).wav';
 import soundContext from '../utilities/soundContext';
+import Double from './GameModes/Double.js';
 class GamePlay extends React.Component {
   constructor(props) {
     super(props);
@@ -97,7 +98,7 @@ class GamePlay extends React.Component {
       case 'Sharp Shooter':
         return <Classic {...this.props} />;
       case 'Double or Nothing':
-        return <Classic {...this.props} />;
+        return <Double {...this.props} />;
       case 'Team':
         return <Classic Team {...this.props} />;
       default:
