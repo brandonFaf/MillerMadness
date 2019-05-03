@@ -126,7 +126,7 @@ class Double extends Component {
           >
             {this.state.players === 2 && <div>{settings.initials[0]}</div>}
             <div className="numbers"> {this.state.score1}</div>
-            <div className="small green"> x{this.state.mult1}</div>
+            <div className="green"> x{this.state.mult1}</div>
             <div className="small">POINTS</div>
           </div>
           <div className="small-logo">
@@ -137,7 +137,7 @@ class Double extends Component {
             <div className="score score-2">
               <div>{settings.initials[1]}</div>
               <div className="numbers"> {this.state.score2}</div>
-              <div className="small green"> x{this.state.mult2}</div>
+              <div className="green"> x{this.state.mult2}</div>
               <div className="small">POINTS</div>
             </div>
           )}

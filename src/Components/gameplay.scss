@@ -12,6 +12,9 @@
     flex-direction: column;
     align-items: center;
     align-self: end;
+    div {
+      padding-top: 10px;
+    }
   }
   .time {
     grid-area: time;
@@ -26,7 +29,12 @@
       margin-bottom: -35px;
     }
   }
-
+  .red {
+    color: red;
+  }
+  .green {
+    color: #0fe90f;
+  }
   .score {
     display: flex;
     flex-direction: column;

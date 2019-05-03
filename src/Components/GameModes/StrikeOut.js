@@ -3,15 +3,14 @@ import { SettingsContext } from '../../SettingsContext';
 import openSocket from 'socket.io-client';
 import classNames from 'classnames';
 import './../gameplay.scss';
-import introMusic from '../../sounds/4 Count down.wav';
-import music from '../../sounds/5 Game Play Loop (1).wav';
 import blip from '../../sounds/sfx_sounds_Blip6.wav';
 import fanfare from '../../sounds/sfx_sounds_fanfare1.wav';
 import fanfare2 from '../../sounds/sfx_sounds_fanfare2.wav';
 import fanfare3 from '../../sounds/sfx_sounds_fanfare3.wav';
 import powerup from '../../sounds/sfx_sounds_powerup18.wav';
+import error from '../../sounds/sfx_sounds_error13.wav';
+import shutdown from '../../sounds/sfx_sound_shutdown2.wav';
 import logo from '../../img/Logo-small.png';
-import context from '../../utilities/soundContext';
 const socket = openSocket('http://localhost:3001');
 
 class SkeetShooting extends Component {
@@ -30,19 +29,20 @@ class SkeetShooting extends Component {
     };
   }
   componentDidMount() {
-    const musicObj = new Audio(introMusic);
     const blipTrack = new Audio(blip);
     const fanfareTrack = new Audio(fanfare);
     const fanfare2Track = new Audio(fanfare2);
     const fanfare3Track = new Audio(fanfare3);
     const powerupTrack = new Audio(powerup);
+    const errorTrack = new Audio(error);
+    const shutdownTrack = new Audio(shutdown);
     const sounds = [fanfare2Track, fanfare3Track, fanfareTrack];
     this.setState({
+      errorTrack,
+      shutdownTrack,
       powerupTrack,
       sounds
     });
-    musicObj.play();
-    musicObj.onended = this.startNextTrack(musicObj);
 
     socket.on('player1', () => {
       this.updatePlayer('score1');
@@ -97,14 +97,17 @@ class SkeetShooting extends Component {
   };
   miss = player => {
     console.log('miss being called', player);
+    this.state.errorTrack.play();
     this.setState(
       state => {
         let misses = `${state[`misses${player}`]}X`;
         if (player === 1 && misses === 'XXX') {
           console.log('saving', state.score1);
+          this.state.shutdownTrack.play();
           this.props.settings.setScores(state.score1);
         } else if (player === 2 && misses === 'XXX') {
           console.log('saving', state.score2);
+          this.state.shutdownTrack.play();
           this.props.settings.setScores(null, state.score2);
         }
         return { [`misses${player}`]: misses };
@@ -116,50 +119,12 @@ class SkeetShooting extends Component {
       }
     );
   };
-  startNextTrack = prevMusic => () => {
-    prevMusic.pause();
-    var url = music;
-
-    /* --- set up web audio --- */
-    //...and the source
-    var source = context.createBufferSource();
-    //connect it to the destination so you can hear it.
-    source.connect(context.destination);
-
-    /* --- load buffer ---  */
-    var request = new XMLHttpRequest();
-    //open the request
-    request.open('GET', url, true);
-    //webaudio paramaters
-    request.responseType = 'arraybuffer';
-    //Once the request has completed... do this
-    request.onload = function() {
-      context.decodeAudioData(
-        request.response,
-        function(response) {
-          /* --- play the sound AFTER the buffer loaded --- */
-          //set the buffer to the response we just received.
-          source.buffer = response;
-          //start(0) should play asap.
-          source.start(0);
-          source.loop = true;
-        },
-        function() {
-          console.error('The request failed.');
-        }
-      );
-    };
-    //Now that the request has been defined, actually make the request. (send it)
-    request.send();
-    this.setState({ music: source });
-  };
 
   componentWillUnmount() {
     clearTimeout(this.to);
     clearTimeout(this.to1);
     clearTimeout(this.to2);
     clearTimeout(this.goTo);
-    this.state.music.stop();
     console.log('clearing timer');
   }
   updatePlayer = score => {
@@ -205,7 +170,7 @@ class SkeetShooting extends Component {
           >
             {this.state.players === 2 && <div>{settings.initials[0]}</div>}
             <div className="numbers"> {this.state.score1}</div>
-            <div className="small red"> {this.state.misses1}</div>
+            <div className="red"> {this.state.misses1}</div>
             <div className="small">POINTS</div>
           </div>
           <div className="small-logo">
@@ -216,7 +181,7 @@ class SkeetShooting extends Component {
             <div className="score score-2">
               <div>{settings.initials[1]}</div>
               <div className="numbers"> {this.state.score2}</div>
-              <div className="small red"> {this.state.misses2}</div>
+              <div className="red"> {this.state.misses2}</div>
               <div className="small">POINTS</div>
             </div>
           )}
