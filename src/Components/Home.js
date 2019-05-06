@@ -66,15 +66,11 @@ export default class Home extends React.Component {
   render() {
     const { go } = this.state;
     return (
-      <div
-        autoFocus
-        className="container"
-        tabIndex="0"
-        onKeyDown={this.navigate}
-      >
+      <div className="container" tabIndex="0">
         <div className={go ? 'beth on' : 'beth off'} />
         <div className={go ? 'travis on' : 'travis off'} />
         <img className="logo-big" src={logo} alt="logo" />
+        <input onChange={this.navigate} autoFocus className="navigateInput" />
         <div className="horizontal-selection start">
           <img alt="basketball" src={basketball} />
           <span className="selected"> Start </span>

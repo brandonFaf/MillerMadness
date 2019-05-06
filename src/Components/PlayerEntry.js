@@ -45,14 +45,14 @@ export default class PlayerEntry extends React.Component {
   handleKeyDown = e => {
     e.preventDefault();
     const { goNext, goBack } = this.props;
-    if (e.keyCode === 37) {
+    if (e.keyCode === 65) {
       if (this.state.activeCursor === 0) {
         goBack(this.makeInitials());
       }
       this.setState(({ activeCursor }) => ({
         activeCursor: --activeCursor
       }));
-    } else if (e.keyCode === 39) {
+    } else if (e.keyCode === 68) {
       if (this.state.activeCursor === 3) {
         goNext(this.makeInitials());
       }
@@ -63,8 +63,8 @@ export default class PlayerEntry extends React.Component {
     const { activeCursor, cursors } = this.state;
     const newCursors = cursors.map((c, i) => {
       if (i !== activeCursor) return c;
-      if (e.keyCode === 38) c.cursor = --c.cursor < 0 ? 25 : c.cursor;
-      else if (e.keyCode === 40) c.cursor = ++c.cursor % 26;
+      if (e.keyCode === 87) c.cursor = --c.cursor < 0 ? 25 : c.cursor;
+      else if (e.keyCode === 83) c.cursor = ++c.cursor % 26;
 
       c.letter = alph[c.cursor];
       return c;

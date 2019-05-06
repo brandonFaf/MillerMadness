@@ -117,7 +117,9 @@ class Classic extends Component {
             {this.state.players === 2 && !this.props.Team && (
               <div>{settings.initials[0]}</div>
             )}
-            <div className="numbers"> {this.state.score1}</div>
+            <div className="numbers">
+              {this.props.Mystery ? '?' : this.state.score1}
+            </div>
             <div className="small">POINTS</div>
           </div>
           <div className="small-logo">
@@ -127,7 +129,9 @@ class Classic extends Component {
           {this.state.players > 1 && !this.props.Team && (
             <div className="score score-2">
               <div>{settings.initials[1]}</div>
-              <div className="numbers"> {this.state.score2}</div>
+              <div className="numbers">
+                {this.props.Mystery ? '?' : this.state.score2}
+              </div>
               <div className="small">POINTS</div>
             </div>
           )}

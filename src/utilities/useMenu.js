@@ -10,8 +10,8 @@ export default () => {
   const [selectAudio, __, selectControls] = useAudio({ src: selectSound });
 
   useKey(usedKey => {
-    if (usedKey === 37 || usedKey === 39) selectControls.play();
-    if (usedKey === 38 || usedKey === 40) {
+    if (usedKey === 97 || usedKey === 100) selectControls.play();
+    if (usedKey === 119 || usedKey === 115) {
       moveControls.play();
     }
   });

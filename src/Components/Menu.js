@@ -57,7 +57,6 @@ class Menu extends Component {
   onKey = e => {
     const { setSound } = this.props.settings;
     let { map, playing } = this.state;
-    console.log(map);
     map[e.keyCode] = e.type === 'keydown';
 
     if (map[38] && map[40]) {

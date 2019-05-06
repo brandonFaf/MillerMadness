@@ -9,12 +9,12 @@ export default ({ history }) => {
   const handleKeyDown = e => {
     e.preventDefault();
     console.log(e.keyCode);
-    if (e.keyCode === 38 || e.keyCode === 40) {
+    if (e.keyCode === 87 || e.keyCode === 83) {
       setCursor((cursor + 1) % 2);
-    } else if (e.keyCode === 39) {
+    } else if (e.keyCode === 68) {
       setPlayers(cursor + 1);
       history.push(`/game/players/${cursor + 1}`);
-    } else if (e.keyCode === 37) {
+    } else if (e.keyCode === 65) {
       setPlayers(cursor + 1);
       history.goBack();
     }

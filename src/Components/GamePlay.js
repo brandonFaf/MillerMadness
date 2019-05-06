@@ -89,6 +89,8 @@ class GamePlay extends React.Component {
     switch (gameMode) {
       case 'Classic':
         return <Classic {...this.props} />;
+      case 'Mystery':
+        return <Classic {...this.props} Mystery />;
       case 'Crisscross':
         return <Classic CrissCross {...this.props} />;
       case 'Strike Out':

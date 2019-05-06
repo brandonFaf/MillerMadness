@@ -9,8 +9,8 @@ export default ({ history }) => {
     e.preventDefault();
     console.log(e.keyCode);
     // arrow up/down button should select next/previous list element
-    if (e.keyCode === 37) history.goBack();
-    else if (e.keyCode === 39) {
+    if (e.keyCode === 65) history.goBack();
+    else if (e.keyCode === 68) {
       history.push(`/game-play`);
     }
   };

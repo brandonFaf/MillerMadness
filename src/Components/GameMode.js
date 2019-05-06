@@ -9,6 +9,7 @@ export default ({ history }) => {
   const { gameMode, setGameMode, setPlayers } = useContext(SettingsContext);
   const choices = [
     'Classic',
+    'Mystery',
     'Crisscross',
     'Strike Out',
     'Skeet Shooting Team',
@@ -27,14 +28,14 @@ export default ({ history }) => {
     e.preventDefault();
     console.log(e.keyCode);
     // arrow up/down button should select next/previous list element
-    if (e.keyCode === 37) history.push('/');
-    if (e.keyCode === 38) {
+    if (e.keyCode === 65) history.push('/');
+    if (e.keyCode === 87) {
       setCursor(getPrevCursor());
       setHighScores(getHighscores(choices[getPrevCursor()]));
-    } else if (e.keyCode === 40) {
+    } else if (e.keyCode === 83) {
       setCursor(getNextCursor());
       setHighScores(getHighscores(choices[getNextCursor()]));
-    } else if (e.keyCode === 39) {
+    } else if (e.keyCode === 68) {
       const gameMode = choices[cursor];
       setGameMode(gameMode);
       if (gameMode.indexOf('Team') > -1) {

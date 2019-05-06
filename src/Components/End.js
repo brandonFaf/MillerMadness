@@ -19,9 +19,9 @@ export default ({ history, ...props }) => {
   const [moveAudio, selectAudio] = useMenu();
   const handleKeyDown = e => {
     e.preventDefault();
-    if (e.keyCode === 38 || e.keyCode === 40) {
+    if (e.keyCode === 87 || e.keyCode === 83) {
       setCursor((cursor + 1) % 2);
-    } else if (e.keyCode === 39) {
+    } else if (e.keyCode === 68) {
       if (cursor === 0) {
         history.push(`/game-play`);
       } else {
