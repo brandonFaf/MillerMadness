@@ -8,12 +8,6 @@ import SettingStore from './SettingsContext';
 import Menu from './Components/Menu';
 import GameOverSound from './Components/GameOverSound';
 class App extends Component {
-  state = { go: false };
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({ go: true });
-    }, 1000);
-  }
   render() {
     return (
       <div className="App">

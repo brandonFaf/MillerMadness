@@ -9,7 +9,7 @@
 
 .navigateInput {
   position: absolute;
-  left: -150px;
+  left: -250px;
 }
 
 .horizontal-selection {
@@ -52,7 +52,7 @@ ul {
 
 .background {
   background: url('./img/EnterScreen-BG.png') bottom center repeat;
-  z-index: -2;
+  z-index: -3;
   position: absolute;
   height: 100vh;
   width: 100vw;
@@ -76,7 +76,7 @@ ul {
   }
   &.on {
     left: 0;
-    top: 0;
+    top: 120px;
     transition: left 0.5s ease-in;
   }
 }
@@ -107,6 +107,13 @@ ul {
   box-sizing: border-box;
 }
 
+.home-background {
+  background: url('./img/BG_Intro_screen.gif') bottom center repeat;
+  z-index: -2;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+}
 .container {
   padding-top: 33px;
   text-align: center;
@@ -116,6 +123,7 @@ ul {
   // grid-gap: 20px;
   justify-items: center;
   align-items: center;
+
   p {
     margin: 0;
   }
@@ -202,6 +210,9 @@ a {
 .small-logo {
   font-size: 30px;
   font-family: 'slkscb';
+}
+.logo-big {
+  height: 200px;
 }
 .small {
   font-size: 24px;

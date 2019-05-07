@@ -2,7 +2,6 @@ import React from 'react';
 import introMusic from '../sounds/1Intro.wav';
 import music from '../sounds/2 Start Screen.wav';
 import basketball from '../img/Basketball.png';
-import logo from '../img/Logo.png';
 import soundContext from '../utilities/soundContext';
 export default class Home extends React.Component {
   state = {
@@ -66,17 +65,20 @@ export default class Home extends React.Component {
   render() {
     const { go } = this.state;
     return (
-      <div className="container" tabIndex="0">
-        <div className={go ? 'beth on' : 'beth off'} />
-        <div className={go ? 'travis on' : 'travis off'} />
-        <img className="logo-big" src={logo} alt="logo" />
-        <input onChange={this.navigate} autoFocus className="navigateInput" />
-        <div className="horizontal-selection start">
-          <img alt="basketball" src={basketball} />
-          <span className="selected"> Start </span>
-          <img alt="basketball" src={basketball} />
+      <>
+        <div className="home-background" />
+        <div className="container" tabIndex="0">
+          <div className={go ? 'beth on' : 'beth off'} />
+          <div className={go ? 'travis on' : 'travis off'} />
+          <div className="logo-big" />
+          <input onChange={this.navigate} autoFocus className="navigateInput" />
+          <div className="horizontal-selection start">
+            <img alt="basketball" src={basketball} />
+            <span className="selected"> Start </span>
+            <img alt="basketball" src={basketball} />
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }
