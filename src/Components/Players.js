@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import PlayerEntry from './PlayerEntry';
 import { SettingsContext } from '../SettingsContext';
+import Logo from './Logo';
 export default ({
   history,
   match: {
@@ -71,8 +72,7 @@ export default ({
   };
   return (
     <>
-      <p className="gameMode">{context.gameMode}</p>
-
+      <Logo gameMode={context.gameMode} />
       <p>{activePlayer}P Name</p>
       {showPlayer()}
     </>

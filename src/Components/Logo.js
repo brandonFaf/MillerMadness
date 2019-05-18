@@ -1,9 +1,12 @@
 import React from 'react';
+import Title from './Title';
 
-export default () => (
-  <>
-    <div className="beth" />
-    <div className="travis" />
-    <div className="logo" />
-  </>
-);
+export default ({ gameMode }) => {
+  return (
+    <>
+      <div className="beth" />
+      <div className="travis" />
+      <Title gameMode={gameMode} />
+    </>
+  );
+};

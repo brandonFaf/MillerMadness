@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { SettingsContext } from '../SettingsContext';
 import basketball from '../img/Basketball.png';
+import Logo from './Logo';
 import classnames from 'classnames';
 export default ({ history }) => {
   const { gameMode, setPlayers } = useContext(SettingsContext);
@@ -25,7 +26,7 @@ export default ({ history }) => {
 
   return (
     <>
-      <p className="gameMode">{gameMode}</p>
+      <Logo gameMode={gameMode} />
       <p>Players</p>
       <div ref={ul} tabIndex="0" className="players" onKeyDown={handleKeyDown}>
         <div className="horizontal-selection">

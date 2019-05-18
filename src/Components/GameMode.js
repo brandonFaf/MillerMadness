@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { SettingsContext } from '../SettingsContext';
+import logo from '../img/Logo.png';
 import basketball from '../img/Basketball.png';
 import up from '../img/up.png';
 import down from '../img/down.png';
@@ -52,6 +53,9 @@ export default ({ history }) => {
 
   return (
     <>
+      <div className="beth" />
+      <div className="travis" />
+      <img className="logo" src={logo} alt="logo" />
       <div
         tabIndex="0"
         className="vertical-selection gameMode-selection"

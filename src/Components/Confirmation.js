@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useRef } from 'react';
 import { SettingsContext } from '../SettingsContext';
 import basketball from '../img/Basketball.png';
+import Logo from './Logo';
 export default ({ history }) => {
   const timelessModes = ['Team Skeet Shooting', 'Strike Out'];
   const { time, initials, gameMode } = useContext(SettingsContext);
@@ -20,7 +21,7 @@ export default ({ history }) => {
 
   return (
     <>
-      <p className="gameMode">{gameMode}</p>
+      <Logo gameMode={gameMode} />
       <div
         tabIndex="0"
         className="vertical-selection"

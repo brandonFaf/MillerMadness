@@ -5,7 +5,6 @@ import Players from './Players';
 import Time from './Time';
 import Confirmation from './Confirmation';
 import PlayerSelection from './PlayerSelection';
-import Logo from './Logo';
 import menuMusic from '../sounds/3 Menu Music.wav';
 import MenuSounds from './MenuSounds';
 import context from '../utilities/soundContext';
@@ -78,7 +77,6 @@ class Menu extends Component {
       <>
         <MenuSounds />
         <div className="container" onKeyDown={this.onKey} onKeyUp={this.onKey}>
-          <Logo />
           <Switch>
             <Route path={`${match.path}/game-modes`} component={GameMode} />
             <Route

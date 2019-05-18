@@ -7,11 +7,36 @@
   src: url(./img/slkscrb.ttf) format('truetype');
 }
 
+body {
+  font-family: 'slkscr';
+  font-size: 80px;
+  overflow: hidden;
+  text-shadow: -5px 0 black, 0 5px black, 5px 0 black, 0 -5px black;
+  letter-spacing: -0.15em;
+}
+ul {
+  padding: 0;
+  margin: 0;
+}
 .navigateInput {
   position: absolute;
   left: -250px;
 }
+.title {
+  font-size: 80px;
+  position: absolute;
+  font-family: 'slkscb';
 
+  &.front {
+    text-shadow: none;
+    background: -webkit-linear-gradient(#4892d6, #2e5b8e);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+  }
+  &.back {
+    text-shadow: -5px 0 #fff, 0 5px #fff, 5px 0 #fff, 0 -5px #fff;
+  }
+}
 .horizontal-selection {
   display: flex;
   justify-content: center;
@@ -36,18 +61,6 @@
   &:focus {
     outline: none;
   }
-}
-
-body {
-  font-family: 'slkscr';
-  font-size: 40px;
-  overflow: hidden;
-  text-shadow: -5px 0 black, 0 5px black, 5px 0 black, 0 -5px black;
-  letter-spacing: 0.27em;
-}
-ul {
-  padding: 0;
-  margin: 0;
 }
 
 .background {
@@ -105,6 +118,8 @@ ul {
   height: 170px;
   // border: 10px solid #ffffff;
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
 }
 
 .home-background {
@@ -244,9 +259,9 @@ p.m-t-l {
 }
 .gameMode-selection {
   width: auto;
-  margin-top: 65px;
+  // margin-top: 65px;
   .selected {
-    padding: 30px;
+    // padding: 30px;
   }
 }
 .highscores {
