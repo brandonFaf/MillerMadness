@@ -1,4 +1,4 @@
-const HIGHSCORES = 3;
+const HIGHSCORES = 4;
 const getHighscores = gameMode => {
   const scores = JSON.parse(localStorage.getItem(gameMode)) || [];
   return scores.slice(0, HIGHSCORES);

@@ -132,6 +132,20 @@ ul {
   height: 100vh;
   width: 100vw;
 }
+.game-background {
+  background: url('./img/BG_Screen_Loop.gif') bottom center repeat;
+  z-index: -2;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+}
+.game-background-out {
+  background: url('./img/BG_Logo_outro.gif') bottom center repeat;
+  z-index: -2;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+}
 .container {
   padding-top: 33px;
   text-align: center;
@@ -260,12 +274,13 @@ p.m-t-l {
 .gameMode-selection {
   width: auto;
   font-size: 75px;
+  margin-top: 20px;
 }
 .highscores {
   text-shadow: none;
   display: grid;
   justify-items: center;
-  margin-top: 45px;
+  margin-top: 20px;
   li {
     display: grid;
     grid-template-columns: 50px repeat(3, minmax(auto, 100px)) auto;

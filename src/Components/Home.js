@@ -3,6 +3,7 @@ import introMusic from '../sounds/1Intro.wav';
 import music from '../sounds/2 Start Screen.wav';
 import basketball from '../img/Basketball.png';
 import soundContext from '../utilities/soundContext';
+import background from '../img/BG_Intro_screen.gif';
 export default class Home extends React.Component {
   state = {
     go: false
@@ -11,7 +12,8 @@ export default class Home extends React.Component {
     const musicObj = new Audio(introMusic);
     musicObj.play();
     musicObj.onended = this.startNextTrack(musicObj);
-    this.setState({ musicObj });
+    console.log('loadBackground');
+    this.setState({ background, musicObj });
     setTimeout(() => {
       this.setState({ go: true });
     }, 1000);
@@ -70,7 +72,15 @@ export default class Home extends React.Component {
     const { go } = this.state;
     return (
       <>
-        <div className="home-background" />
+        <div
+          style={{
+            background: `url('${this.state.background}') bottom center repeat`,
+            zIndex: -2,
+            position: 'absolute',
+            height: '100vh',
+            width: '100vw'
+          }}
+        />
         <div className="container" tabIndex="0">
           <div className={go ? 'beth on' : 'beth off'} />
           <div className={go ? 'travis on' : 'travis off'} />

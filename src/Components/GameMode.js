@@ -1,12 +1,11 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { SettingsContext } from '../SettingsContext';
-import logo from '../img/Logo.png';
 import basketball from '../img/Basketball.png';
 import up from '../img/up.png';
 import down from '../img/down.png';
 import highScoresLabel from '../img/highScoresLabel.png';
 import { getHighscores } from '../utilities/highscores';
-export default ({ history }) => {
+export default ({ history, next }) => {
   const { gameMode, setGameMode, setPlayers } = useContext(SettingsContext);
 
   const timelessModes = ['Skeet Shooting', 'Strike Out'];
@@ -43,9 +42,9 @@ export default ({ history }) => {
       setGameMode(gameMode);
       if (gameMode.indexOf('Team') > -1 || gameMode.indexOf('Skeet') > -1) {
         setPlayers(2);
-        history.push(`/game/players/2`);
+        next('/game/players/2');
       } else {
-        history.push(`/game/players`);
+        next('/game/players');
       }
     }
   };
@@ -57,7 +56,7 @@ export default ({ history }) => {
     <>
       <div className="beth" />
       <div className="travis" />
-      <img className="logo" src={logo} alt="logo" />
+      <div className="logo" />
       <div
         tabIndex="0"
         className="vertical-selection gameMode-selection"
@@ -81,9 +80,7 @@ export default ({ history }) => {
             <p />
             <p>Player</p>
             <p>Score</p>
-            <p>
-              {!timelessModes.some(x => x === choices[cursor]) && <p>Time</p>}
-            </p>
+            <p>{!timelessModes.some(x => x === choices[cursor]) && 'Time'}</p>
             <p>Date</p>
           </li>
 
