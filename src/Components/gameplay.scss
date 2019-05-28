@@ -1,3 +1,6 @@
+div:focus {
+  outline: none;
+}
 .gameplay {
   display: grid;
   grid-template-areas:
@@ -11,16 +14,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    align-self: end;
+    align-self: center;
+    p {
+      margin: 0;
+      width: 300px;
+      font-size: 60px;
+      text-align: center;
+    }
     div {
       padding-top: 10px;
+      width: 200px;
     }
   }
   .time {
     grid-area: time;
     display: flex;
     flex-direction: column;
-    width: 515px;
+    width: 200px;
     align-items: center;
     justify-self: center;
     height: 224px;
@@ -31,6 +41,7 @@
   }
   .red {
     color: red;
+    height: 80px;
   }
   .green {
     color: #0fe90f;
@@ -41,9 +52,10 @@
     align-items: center;
     .numbers {
       text-align: center;
-      font-size: 184px;
+      font-size: 200px;
       margin-bottom: -35px;
       width: 262px;
+      font-family: 'slkscr';
     }
   }
   .solo {

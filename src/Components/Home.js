@@ -11,6 +11,7 @@ export default class Home extends React.Component {
     const musicObj = new Audio(introMusic);
     musicObj.play();
     musicObj.onended = this.startNextTrack(musicObj);
+    this.setState({ musicObj });
     setTimeout(() => {
       this.setState({ go: true });
     }, 1000);
@@ -60,6 +61,9 @@ export default class Home extends React.Component {
   componentWillUnmount() {
     if (this.state.music) {
       this.state.music.stop();
+    }
+    if (this.state.musicObj) {
+      this.state.musicObj.pause();
     }
   }
   render() {

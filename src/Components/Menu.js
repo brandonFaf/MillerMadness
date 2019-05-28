@@ -58,7 +58,7 @@ class Menu extends Component {
     let { map, playing } = this.state;
     map[e.keyCode] = e.type === 'keydown';
 
-    if (map[38] && map[40]) {
+    if (map[87] && map[91]) {
       setSound();
       if (playing) {
         console.log('mute');

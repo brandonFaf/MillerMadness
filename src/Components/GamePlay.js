@@ -14,8 +14,10 @@ class GamePlay extends React.Component {
 
     this.state = {
       countdown: 3,
+      start: false,
       players: props.settings.players,
-      gameMode: props.settings.gameMode
+      gameMode: props.settings.gameMode,
+      map: {}
     };
   }
   componentDidMount() {
@@ -26,6 +28,7 @@ class GamePlay extends React.Component {
       musicObj.play();
       musicObj.onended = this.startNextTrack(musicObj);
       blipTrack.play();
+      this.setState({ musicObj });
     }
     this.countdown = setInterval(() => {
       if (this.state.countdown >= 1 && this.props.settings.sound)
@@ -37,9 +40,11 @@ class GamePlay extends React.Component {
           };
         });
       } else {
+        this.setState({ start: true });
         clearInterval(this.countdown);
       }
     }, 1000);
+    document.getElementById('gameplay').focus();
   }
   startNextTrack = prevMusic => () => {
     prevMusic.pause();
@@ -80,27 +85,32 @@ class GamePlay extends React.Component {
   };
 
   componentWillUnmount() {
-    if (this.props.settings.sound) {
+    if (this.props.settings.sound && this.state.music) {
       this.state.music.stop();
     }
+    if (this.state.musicObj) {
+      this.state.musicObj.pause();
+    }
+    clearInterval(this.countdown);
   }
   getGameMode = props => {
     const { gameMode } = this.props.settings;
+    const { start, end } = this.state;
     switch (gameMode) {
       case 'Classic':
-        return <Classic {...this.props} />;
+        return <Classic end={end} {...this.props} />;
       case 'Mystery':
-        return <Classic {...this.props} Mystery />;
+        return <Classic end={end} {...this.props} Mystery />;
       case 'Crisscross':
-        return <Classic CrissCross {...this.props} />;
+        return <Classic CrissCross end={end} {...this.props} />;
       case 'Strike Out':
-        return <StrikeOut {...this.props} />;
+        return <StrikeOut end={end} start={start} {...this.props} />;
       case 'Skeet Shooting':
-        return <SkeetShooting {...this.props} />;
+        return <SkeetShooting end={end} start={start} {...this.props} />;
       case 'Double or Nothing':
-        return <Double {...this.props} />;
+        return <Double end={end} {...this.props} />;
       case 'Team':
-        return <Classic Team {...this.props} />;
+        return <Classic Team end={end} {...this.props} />;
       default:
         break;
     }
@@ -108,10 +118,26 @@ class GamePlay extends React.Component {
   renderCountdown = () => {
     return <div className="countdown">{this.state.countdown}</div>;
   };
+  onKey = e => {
+    const { map } = this.state;
+    map[e.keyCode] = e.type === 'keydown';
+    console.log(map);
+    if (map[65] && map[68]) {
+      this.setState({ end: true });
+    }
+  };
   render() {
     return (
-      <div>
+      <div
+        id="gameplay"
+        tabIndex="0"
+        onKeyDown={this.onKey}
+        onKeyUp={this.onKey}
+      >
         {this.state.countdown > 0 && this.renderCountdown()}
+        {/* 
+        <button onClick={this.player1}>Player1</button>
+        <button onClick={this.player2}>Player2</button> */}
         {this.getGameMode()}
       </div>
     );

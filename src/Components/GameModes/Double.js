@@ -7,7 +7,7 @@ import fanfare from '../../sounds/sfx_sounds_fanfare1.wav';
 import fanfare2 from '../../sounds/sfx_sounds_fanfare2.wav';
 import fanfare3 from '../../sounds/sfx_sounds_fanfare3.wav';
 import powerup from '../../sounds/sfx_sounds_powerup18.wav';
-import logo from '../../img/Logo-small.png';
+import Title from '../Title';
 import blip from '../../sounds/sfx_sounds_Blip6.wav';
 const socket = openSocket('http://localhost:3001');
 
@@ -70,10 +70,13 @@ class Double extends Component {
           };
         });
       } else {
-        this.props.settings.setScores(this.state.score1, this.state.score2);
-        this.props.history.push('/game-over');
+        this.endGame();
       }
     }, 1000);
+  };
+  endGame = () => {
+    this.props.settings.setScores(this.state.score1, this.state.score2);
+    this.props.history.push('/game-over');
   };
   updatePlayer = player => {
     if (this.props.settings.sound) {
@@ -106,13 +109,16 @@ class Double extends Component {
     clearInterval(this.timer);
     console.log('clearing timer');
   }
+  componentDidUpdate() {
+    if (this.props.end) {
+      this.endGame();
+    }
+  }
   render() {
     const { settings } = this.props;
 
     return (
       <>
-        <button onClick={this.player1}>Player1</button>
-        <button onClick={this.player2}>Player2</button>
         <div className="gameplay">
           <div className="time">
             <div className="seconds">{this.state.time}</div>
@@ -124,21 +130,18 @@ class Double extends Component {
               'score-1': this.state.players === 2
             })}
           >
-            {this.state.players === 2 && <div>{settings.initials[0]}</div>}
             <div className="numbers"> {this.state.score1}</div>
             <div className="green"> x{this.state.mult1}</div>
-            <div className="small">POINTS</div>
+            {this.state.players === 2 && <div>{settings.initials[0]}</div>}
           </div>
           <div className="small-logo">
-            <img src={logo} alt="logo" />
-            <div>{this.state.gameMode}</div>
+            <Title gameMode={this.state.gameMode} />
           </div>
           {this.state.players > 1 && (
             <div className="score score-2">
-              <div>{settings.initials[1]}</div>
               <div className="numbers"> {this.state.score2}</div>
               <div className="green"> x{this.state.mult2}</div>
-              <div className="small">POINTS</div>
+              <div>{settings.initials[1]}</div>
             </div>
           )}
         </div>

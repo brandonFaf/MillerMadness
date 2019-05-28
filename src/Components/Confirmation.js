@@ -3,7 +3,7 @@ import { SettingsContext } from '../SettingsContext';
 import basketball from '../img/Basketball.png';
 import Logo from './Logo';
 export default ({ history }) => {
-  const timelessModes = ['Team Skeet Shooting', 'Strike Out'];
+  const timelessModes = ['Skeet Shooting', 'Strike Out'];
   const { time, initials, gameMode } = useContext(SettingsContext);
   const ul = useRef(null);
   const handleKeyDown = e => {
@@ -29,17 +29,11 @@ export default ({ history }) => {
         onKeyDown={handleKeyDown}
       >
         <div className="conf-group">
-          <div className="initial-letters">
-            {initials[0]}
-            <p className="small">1P</p>
-          </div>
+          <div className="initial-letters">{initials[0]}</div>
           {initials.length > 1 && (
             <>
               <p className="small vs">vs</p>
-              <div className="initial-letters">
-                {initials[1]}
-                <p className="small">2P</p>
-              </div>
+              <div className="initial-letters">{initials[1]}</div>
             </>
           )}
         </div>

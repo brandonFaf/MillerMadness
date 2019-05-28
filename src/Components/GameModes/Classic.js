@@ -7,7 +7,7 @@ import fanfare from '../../sounds/sfx_sounds_fanfare1.wav';
 import fanfare2 from '../../sounds/sfx_sounds_fanfare2.wav';
 import fanfare3 from '../../sounds/sfx_sounds_fanfare3.wav';
 import powerup from '../../sounds/sfx_sounds_powerup18.wav';
-import logo from '../../img/Logo-small.png';
+import Title from '../Title';
 import blip from '../../sounds/sfx_sounds_Blip6.wav';
 const socket = openSocket('http://localhost:3001');
 
@@ -42,6 +42,11 @@ class Classic extends Component {
     });
     this.startTimer();
   }
+  componentDidUpdate() {
+    if (this.props.end) {
+      this.endGame();
+    }
+  }
   startTimer = () => {
     const blipTrack = new Audio(blip);
     this.timer = setInterval(() => {
@@ -59,10 +64,13 @@ class Classic extends Component {
           };
         });
       } else {
-        this.props.settings.setScores(this.state.score1, this.state.score2);
-        this.props.history.push('/game-over');
+        this.endGame();
       }
     }, 1000);
+  };
+  endGame = () => {
+    this.props.settings.setScores(this.state.score1, this.state.score2);
+    this.props.history.push('/game-over');
   };
   updatePlayer = score => {
     if (this.props.settings.sound) {
@@ -114,25 +122,24 @@ class Classic extends Component {
               'score-1': this.state.players === 2 && !this.props.Team
             })}
           >
-            {this.state.players === 2 && !this.props.Team && (
-              <div>{settings.initials[0]}</div>
-            )}
             <div className="numbers">
               {this.props.Mystery ? '?' : this.state.score1}
             </div>
-            <div className="small">POINTS</div>
+            {this.state.players === 2 && !this.props.Team ? (
+              <div>{settings.initials[0]}</div>
+            ) : (
+              <div className="small">POINTS</div>
+            )}
           </div>
           <div className="small-logo">
-            <img src={logo} alt="logo" />
-            <div>{this.state.gameMode}</div>
+            <Title gameMode={this.state.gameMode} />
           </div>
           {this.state.players > 1 && !this.props.Team && (
             <div className="score score-2">
-              <div>{settings.initials[1]}</div>
               <div className="numbers">
                 {this.props.Mystery ? '?' : this.state.score2}
               </div>
-              <div className="small">POINTS</div>
+              <div>{settings.initials[1]}</div>
             </div>
           )}
         </div>

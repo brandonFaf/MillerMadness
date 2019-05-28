@@ -4,12 +4,12 @@ import basketball from '../img/Basketball.png';
 import classnames from 'classnames';
 import { saveScore } from '../utilities/highscores';
 import useMenu from '../utilities/useMenu';
-import logo from '../img/Logo-small.png';
+import Title from './Title';
 export default ({ history, ...props }) => {
   const { time, gameMode, initials, scores, sound } = useContext(
     SettingsContext
   );
-  const timelessModes = ['Team Skeet Shooting', 'Strike Out'];
+  const timelessModes = ['Skeet Shooting', 'Strike Out'];
 
   const [highscore1, setHighscore1] = useState(false);
   const [highscore2, setHighscore2] = useState(false);
@@ -55,12 +55,15 @@ export default ({ history, ...props }) => {
         <div className={'travis'} />
 
         <div className="small-logo">
-          <img src={logo} alt="logo" />
-          <div>{gameMode}</div>
+          <Title gameMode={gameMode} />
         </div>
         {initials.length === 1 || gameMode === 'Team' ? (
           <>
-            <div className="winner-text">TIME'S UP</div>
+            <div className="winner-text">
+              {timelessModes.some(x => x === gameMode)
+                ? 'GAME OVER'
+                : `TIME'S UP`}
+            </div>
             <div className="final-score">
               <div className="player-score">
                 <p className="numbers">{scores[0] || 0}</p>
@@ -90,7 +93,7 @@ export default ({ history, ...props }) => {
                 <p className="small">{initials[0]}</p>
                 {highscore1 && <p className="small">HIGHSCORE</p>}
               </div>
-              {gameMode.indexOf('Skeet Shooting') < 0 && (
+              {!timelessModes.some(x => x === gameMode) && (
                 <div className="player-score">
                   <p className="time">{time}</p>
                   <p className="small">SECONDS</p>

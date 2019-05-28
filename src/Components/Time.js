@@ -2,9 +2,10 @@ import React, { useState, useContext, useEffect, useRef } from 'react';
 import { SettingsContext } from '../SettingsContext';
 import up from '../img/up.png';
 import down from '../img/down.png';
+import Logo from './Logo';
 export default ({ history }) => {
   const { gameMode, time, setTime } = useContext(SettingsContext);
-  const choices = [5, 30, 40, 50, 60, 70, 80, 90];
+  const choices = [30, 40, 50, 60, 70, 80, 90];
   let index = choices.indexOf(time);
   index = index > 0 ? index : 0;
   const [cursor, setCursor] = useState(index);
@@ -17,8 +18,8 @@ export default ({ history }) => {
     console.log(e.keyCode);
     // arrow up/down button should select next/previous list element
     if (e.keyCode === 65) history.goBack();
-    if (e.keyCode === 87) setCursor(getPrevCursor());
-    else if (e.keyCode === 83) setCursor(getNextCursor());
+    if (e.keyCode === 87) setCursor(getNextCursor());
+    else if (e.keyCode === 83) setCursor(getPrevCursor());
     else if (e.keyCode === 68) {
       setTime(choices[cursor]);
       history.push(`/game/confirmation`);
@@ -30,8 +31,8 @@ export default ({ history }) => {
 
   return (
     <>
-      <p className="gameMode">{gameMode}</p>
-      <p className="medium">Time Limit</p>
+      <Logo gameMode={gameMode} />
+      <p className="small">Time Limit</p>
       <div
         tabIndex="0"
         className="vertical-selection"

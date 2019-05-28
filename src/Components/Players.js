@@ -8,7 +8,7 @@ export default ({
     params: { players }
   }
 }) => {
-  const timelessModes = ['Team Skeet Shooting', 'Strike Out'];
+  const timelessModes = ['Skeet Shooting', 'Strike Out'];
   const [activePlayer, setPlayer] = useState(1);
   const context = useContext(SettingsContext);
   const goNext = player => {
@@ -73,7 +73,7 @@ export default ({
   return (
     <>
       <Logo gameMode={context.gameMode} />
-      <p>{activePlayer}P Name</p>
+      <p className="small">{activePlayer}P Name</p>
       {showPlayer()}
     </>
   );

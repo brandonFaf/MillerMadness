@@ -7,7 +7,7 @@ import fanfare from '../../sounds/sfx_sounds_fanfare1.wav';
 import fanfare2 from '../../sounds/sfx_sounds_fanfare2.wav';
 import fanfare3 from '../../sounds/sfx_sounds_fanfare3.wav';
 import powerup from '../../sounds/sfx_sounds_powerup18.wav';
-import logo from '../../img/Logo-small.png';
+import Title from '../Title';
 
 const socket = openSocket('http://localhost:3001');
 
@@ -22,6 +22,15 @@ class SkeetShooting extends Component {
       gameMode: props.settings.gameMode,
       round: 0
     };
+  }
+  componentDidUpdate() {
+    if (this.props.end) {
+      this.endGame();
+    }
+    if (this.props.start & !this.state.start) {
+      this.setState({ start: true });
+      this.startGame();
+    }
   }
   componentDidMount() {
     const fanfareTrack = new Audio(fanfare);
@@ -49,7 +58,6 @@ class SkeetShooting extends Component {
       this.checkMiss();
     }, 3000);
 
-    // this.setState({ firedSeconds: time.getSeconds(), firedMilli:time.getMilliseconds() });
     var rand = Math.round(Math.random() * (10000 - 3000)) + 3000; // generate new time (between 10sec and 5sec)
     this.to = setTimeout(this.startGame, rand);
   };
@@ -65,7 +73,6 @@ class SkeetShooting extends Component {
   componentWillUnmount() {
     clearTimeout(this.to);
     clearTimeout(this.goTo);
-    this.state.music.stop();
     console.log('clearing timer');
   }
   updatePlayer = player => {
@@ -95,32 +102,33 @@ class SkeetShooting extends Component {
     const { settings } = this.props;
 
     return (
-      <div className="gameplay">
-        <div className="time">
-          <div className="seconds">{this.state.go && 'SHOOT'}</div>
-        </div>
-        <div
-          className={classNames('score', {
-            solo: this.state.players === 1,
-            'score-1': this.state.players === 2
-          })}
-        >
-          {this.state.players === 2 && <div>{settings.initials[0]}</div>}
-          <div className="numbers"> {this.state.score1}</div>
-          <div className="small">POINTS</div>
-        </div>
-        <div className="small-logo">
-          <img src={logo} alt="logo" />
-          <div>{this.state.gameMode}</div>
-        </div>
-        {this.state.players > 1 && (
-          <div className="score score-2">
-            <div>{settings.initials[1]}</div>
-            <div className="numbers"> {this.state.score2}</div>
-            <div className="small">POINTS</div>
+      <>
+        <button onClick={this.player1}>Player1</button>
+        <button onClick={this.player2}>Player2</button>
+        <div className="gameplay">
+          <div className="time">
+            <div className="seconds">{this.state.go && 'SHOOT'}</div>
           </div>
-        )}
-      </div>
+          <div
+            className={classNames('score', {
+              solo: this.state.players === 1,
+              'score-1': this.state.players === 2
+            })}
+          >
+            <div className="numbers"> {this.state.score1}</div>
+            {this.state.players === 2 && <div>{settings.initials[0]}</div>}
+          </div>
+          <div className="small-logo">
+            <Title gameMode={this.state.gameMode} />
+          </div>
+          {this.state.players > 1 && (
+            <div className="score score-2">
+              <div className="numbers"> {this.state.score2}</div>
+              <div>{settings.initials[1]}</div>
+            </div>
+          )}
+        </div>
+      </>
     );
   }
 }

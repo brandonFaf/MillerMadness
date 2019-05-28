@@ -3,14 +3,13 @@ import { SettingsContext } from '../../SettingsContext';
 import openSocket from 'socket.io-client';
 import classNames from 'classnames';
 import './../gameplay.scss';
-import blip from '../../sounds/sfx_sounds_Blip6.wav';
 import fanfare from '../../sounds/sfx_sounds_fanfare1.wav';
 import fanfare2 from '../../sounds/sfx_sounds_fanfare2.wav';
 import fanfare3 from '../../sounds/sfx_sounds_fanfare3.wav';
 import powerup from '../../sounds/sfx_sounds_powerup18.wav';
 import error from '../../sounds/sfx_sounds_error13.wav';
 import shutdown from '../../sounds/sfx_sound_shutdown2.wav';
-import logo from '../../img/Logo-small.png';
+import Title from '../Title';
 const socket = openSocket('http://localhost:3001');
 
 class SkeetShooting extends Component {
@@ -29,7 +28,6 @@ class SkeetShooting extends Component {
     };
   }
   componentDidMount() {
-    const blipTrack = new Audio(blip);
     const fanfareTrack = new Audio(fanfare);
     const fanfare2Track = new Audio(fanfare2);
     const fanfare3Track = new Audio(fanfare3);
@@ -55,21 +53,20 @@ class SkeetShooting extends Component {
 
       clearTimeout(this.to2);
     });
-    blipTrack.play();
-    this.countdown = setInterval(() => {
-      if (this.state.countdown >= 1) blipTrack.play();
-      if (this.state.countdown > 0) {
-        this.setState(prevState => {
-          return {
-            countdown: --prevState.countdown
-          };
-        });
-      } else {
-        this.startGame();
-        clearInterval(this.countdown);
-      }
-    }, 1000);
   }
+  componentDidUpdate() {
+    if (this.props.end) {
+      this.endGame();
+    }
+    if (this.props.start & !this.state.start) {
+      this.setState({ start: true });
+      this.startGame();
+    }
+  }
+  endGame = () => {
+    this.props.settings.setScores(this.state.score1, this.state.score2);
+    this.props.history.push('/game-over');
+  };
   startGame = () => {
     //say shoot
     if (this.state.misses1 !== 'XXX') {
@@ -156,8 +153,6 @@ class SkeetShooting extends Component {
 
     return (
       <div>
-        <button onClick={this.player1}>Player1</button>
-        <button onClick={this.player2}>Player2</button>
         <div className="gameplay">
           <div className="time">
             <div className="seconds">{this.state.go && 'SHOOT'}</div>
@@ -168,21 +163,18 @@ class SkeetShooting extends Component {
               'score-1': this.state.players === 2
             })}
           >
-            {this.state.players === 2 && <div>{settings.initials[0]}</div>}
             <div className="numbers"> {this.state.score1}</div>
             <div className="red"> {this.state.misses1}</div>
-            <div className="small">POINTS</div>
+            {this.state.players === 2 && <div>{settings.initials[0]}</div>}
           </div>
           <div className="small-logo">
-            <img src={logo} alt="logo" />
-            <div>{this.state.gameMode}</div>
+            <Title gameMode={this.state.gameMode} />
           </div>
           {this.state.players > 1 && (
             <div className="score score-2">
-              <div>{settings.initials[1]}</div>
               <div className="numbers"> {this.state.score2}</div>
               <div className="red"> {this.state.misses2}</div>
-              <div className="small">POINTS</div>
+              <div>{settings.initials[1]}</div>
             </div>
           )}
         </div>

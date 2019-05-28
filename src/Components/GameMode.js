@@ -8,12 +8,14 @@ import highScoresLabel from '../img/highScoresLabel.png';
 import { getHighscores } from '../utilities/highscores';
 export default ({ history }) => {
   const { gameMode, setGameMode, setPlayers } = useContext(SettingsContext);
+
+  const timelessModes = ['Skeet Shooting', 'Strike Out'];
   const choices = [
     'Classic',
     'Mystery',
     'Crisscross',
     'Strike Out',
-    'Skeet Shooting Team',
+    'Skeet Shooting',
     'Double or Nothing',
     'Team'
   ];
@@ -39,7 +41,7 @@ export default ({ history }) => {
     } else if (e.keyCode === 68) {
       const gameMode = choices[cursor];
       setGameMode(gameMode);
-      if (gameMode.indexOf('Team') > -1) {
+      if (gameMode.indexOf('Team') > -1 || gameMode.indexOf('Skeet') > -1) {
         setPlayers(2);
         history.push(`/game/players/2`);
       } else {
@@ -79,7 +81,9 @@ export default ({ history }) => {
             <p />
             <p>Player</p>
             <p>Score</p>
-            <p>Time</p>
+            <p>
+              {!timelessModes.some(x => x === choices[cursor]) && <p>Time</p>}
+            </p>
             <p>Date</p>
           </li>
 
@@ -89,7 +93,7 @@ export default ({ history }) => {
                 <p>{i + 1}.</p>
                 <p>{initials}</p>
                 <p>{score}</p>
-                <p>{time}</p>
+                <p>{!timelessModes.some(x => x === choices[cursor]) && time}</p>
                 <p>{date}</p>
               </li>
             );
