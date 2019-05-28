@@ -4,13 +4,25 @@ var context = new AudioContext();
 let source;
 export default context;
 export const stopMenuMusic = () => {
-  source.stop();
+  if (source) {
+    source.stop();
+  }
+};
+export const clearSource = () => {
+  if (source) {
+    source.disconnect();
+    source = null;
+  }
 };
 export const playMenuMusic = () => {
+  console.log('here');
   var url = menuMusic;
+  if (source) {
+    return;
+  }
   source = context.createBufferSource();
+  console.log('at start', source);
 
-  console.log('at start', source.buffer);
   //connect it to the destination so you can hear it.
   source.connect(context.destination);
 

@@ -20,6 +20,7 @@ export default ({ history, next }) => {
   ];
   let index = choices.indexOf(gameMode);
   index = index > 0 ? index : 0;
+  const [moveNext, setMoveNext] = useState(false);
   const [cursor, setCursor] = useState(index);
   const [highScores, setHighScores] = useState(getHighscores(choices[cursor]));
   const ul = useRef(null);
@@ -27,24 +28,27 @@ export default ({ history, next }) => {
     cursor - 1 < 0 ? choices.length - 1 : cursor - 1;
   const getNextCursor = () => (cursor + 1) % choices.length;
   const handleKeyDown = e => {
-    e.preventDefault();
-    console.log(e.keyCode);
-    // arrow up/down button should select next/previous list element
-    if (e.keyCode === 65) history.push('/');
-    if (e.keyCode === 87) {
-      setCursor(getPrevCursor());
-      setHighScores(getHighscores(choices[getPrevCursor()]));
-    } else if (e.keyCode === 83) {
-      setCursor(getNextCursor());
-      setHighScores(getHighscores(choices[getNextCursor()]));
-    } else if (e.keyCode === 68) {
-      const gameMode = choices[cursor];
-      setGameMode(gameMode);
-      if (gameMode.indexOf('Team') > -1 || gameMode.indexOf('Skeet') > -1) {
-        setPlayers(2);
-        next('/game/players/2');
-      } else {
-        next('/game/players');
+    if (!moveNext) {
+      e.preventDefault();
+      console.log(e.keyCode);
+      // arrow up/down button should select next/previous list element
+      if (e.keyCode === 65) history.push('/');
+      if (e.keyCode === 87) {
+        setCursor(getPrevCursor());
+        setHighScores(getHighscores(choices[getPrevCursor()]));
+      } else if (e.keyCode === 83) {
+        setCursor(getNextCursor());
+        setHighScores(getHighscores(choices[getNextCursor()]));
+      } else if (e.keyCode === 68) {
+        const gameMode = choices[cursor];
+        setGameMode(gameMode);
+        setMoveNext(true);
+        if (gameMode.indexOf('Team') > -1 || gameMode.indexOf('Skeet') > -1) {
+          setPlayers(2);
+          next('/game/players/2');
+        } else {
+          next('/game/players');
+        }
       }
     }
   };

@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import GameMode from './GameMode';
-import MenuSounds from './MenuSounds';
-import context, { playMenuMusic } from '../utilities/soundContext';
+import { playMenuMusic, clearSource } from '../utilities/soundContext';
 import { SettingsContext } from '../SettingsContext';
 import outroGif from '../img/BG_Logo_outro.gif';
 class GameModeBG extends Component {
   state = {
     map: {},
-    playing: true,
     out: false
   };
   componentDidMount = () => {
-    console.log('here');
-    playMenuMusic();
+    if (this.props.settings.sound) {
+      playMenuMusic();
+      console.log('play music');
+    }
   };
 
   next = route => {
@@ -21,27 +21,28 @@ class GameModeBG extends Component {
     });
   };
   onKey = e => {
-    const { setSound } = this.props.settings;
-    let { map, playing } = this.state;
+    const { sound, setSound } = this.props.settings;
+    let { map } = this.state;
     map[e.keyCode] = e.type === 'keydown';
 
-    if (map[87] && map[91]) {
+    if (map[87] && map[83]) {
       setSound();
-      if (playing) {
+      if (sound) {
         console.log('mute');
-        context.suspend();
+        clearSource();
       } else {
         console.log('un-mute');
-        context.resume();
+        playMenuMusic();
       }
-      playing = !playing;
+      this.setState({ map });
     }
-    this.setState({ map, playing });
+  };
+  componentWillCatch = () => {
+    this.props.history.push('/');
   };
   render() {
     return (
       <>
-        <MenuSounds />
         {this.state.out ? (
           <div
             style={{

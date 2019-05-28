@@ -2,7 +2,7 @@ import React from 'react';
 import introMusic from '../sounds/1Intro.wav';
 import music from '../sounds/2 Start Screen.wav';
 import basketball from '../img/Basketball.png';
-import soundContext from '../utilities/soundContext';
+import soundContext, { clearSource } from '../utilities/soundContext';
 import background from '../img/BG_Intro_screen.gif';
 export default class Home extends React.Component {
   state = {
@@ -61,6 +61,7 @@ export default class Home extends React.Component {
     this.props.history.push('/game/game-modes');
   };
   componentWillUnmount() {
+    clearSource();
     if (this.state.music) {
       this.state.music.stop();
     }

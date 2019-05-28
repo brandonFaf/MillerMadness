@@ -83,7 +83,9 @@ class GamePlay extends React.Component {
     request.send();
     this.setState({ music: source });
   };
-
+  componentWillCatch = () => {
+    this.props.history.push('/');
+  };
   componentWillUnmount() {
     if (this.props.settings.sound && this.state.music) {
       this.state.music.stop();

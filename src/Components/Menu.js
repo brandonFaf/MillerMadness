@@ -5,7 +5,11 @@ import Time from './Time';
 import Confirmation from './Confirmation';
 import PlayerSelection from './PlayerSelection';
 import MenuSounds from './MenuSounds';
-import context, { stopMenuMusic } from '../utilities/soundContext';
+import {
+  stopMenuMusic,
+  clearSource,
+  playMenuMusic
+} from '../utilities/soundContext';
 import { SettingsContext } from '../SettingsContext';
 class Menu extends Component {
   state = {
@@ -22,18 +26,23 @@ class Menu extends Component {
     let { map, playing } = this.state;
     map[e.keyCode] = e.type === 'keydown';
 
-    if (map[87] && map[91]) {
+    if (map[87] && map[83]) {
       setSound();
       if (playing) {
         console.log('mute');
-        context.suspend();
+        // context.suspend()
+        clearSource();
       } else {
         console.log('un-mute');
-        context.resume();
+        // context.resume();
+        playMenuMusic();
       }
       playing = !playing;
     }
     this.setState({ map, playing });
+  };
+  componentWillCatch = () => {
+    this.props.history.push('/');
   };
   render() {
     const { match } = this.props;
