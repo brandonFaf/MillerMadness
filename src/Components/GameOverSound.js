@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import music from '../sounds/8 Game Over.wav';
 import End from './End';
 import context from '../utilities/soundContext';
+import { SettingsContext } from '../SettingsContext';
 
 class GameOverSound extends Component {
   state = {
     source: null
   };
   componentDidMount = () => {
+    if (!this.props.sound) {
+      return;
+    }
     var url = music;
 
     /* --- set up web audio --- */
@@ -44,11 +48,21 @@ class GameOverSound extends Component {
     this.setState({ source });
   };
   componentWillUnmount() {
-    this.state.source.stop();
+    if(this.state.source){
+      this.state.source.stop();
+    }
   }
   render() {
     return <End {...this.props} />;
   }
 }
 
-export default GameOverSound;
+const GameOverSoundConntected = props => {
+  return (
+    <SettingsContext.Consumer>
+      {settings => <GameOverSound settings={settings} {...props} />}
+    </SettingsContext.Consumer>
+  );
+};
+export default GameOverSoundConntected;
+
