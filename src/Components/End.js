@@ -5,7 +5,6 @@ import classnames from 'classnames';
 import { saveScore } from '../utilities/highscores';
 import useMenu from '../utilities/useMenu';
 import Title from './Title';
-import { clearSource } from '../utilities/soundContext';
 export default ({ history, ...props }) => {
   const { time, gameMode, initials, scores, sound } = useContext(
     SettingsContext
@@ -26,7 +25,6 @@ export default ({ history, ...props }) => {
       if (cursor === 0) {
         history.push(`/game-play`);
       } else {
-        clearSource();
         history.push(`/game/game-modes`);
       }
     }

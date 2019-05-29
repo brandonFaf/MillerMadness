@@ -6,7 +6,6 @@ import GamePlay from './Components/GamePlay';
 import SettingStore from './SettingsContext';
 import Menu from './Components/Menu';
 import GameOverSound from './Components/GameOverSound';
-import GameModeBG from './Components/GameModeBG';
 class App extends Component {
   render() {
     return (
@@ -14,7 +13,6 @@ class App extends Component {
         <div className="background" />
         <SettingStore>
           <Route path="/" exact component={HomeAudio} />
-          <Route path="/game/game-modes" component={GameModeBG} />
           <Route path="/game/:any*" component={Menu} />
           <Route path="/game-play" exact component={GamePlay} />
           <Route path="/game-over" exact component={GameOverSound} />

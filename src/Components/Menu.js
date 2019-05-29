@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import GameMode from './GameMode';
 import Players from './Players';
 import Time from './Time';
 import Confirmation from './Confirmation';
 import PlayerSelection from './PlayerSelection';
+import menuMusic from '../sounds/3 Menu Music.wav';
 import MenuSounds from './MenuSounds';
-import {
-  stopMenuMusic,
-  clearSource,
-  playMenuMusic
-} from '../utilities/soundContext';
+import context from '../utilities/soundContext';
 import { SettingsContext } from '../SettingsContext';
 class Menu extends Component {
   state = {
@@ -17,9 +15,43 @@ class Menu extends Component {
     map: {},
     playing: true
   };
+  componentDidMount = () => {
+    var url = menuMusic;
 
+    //...and the source
+    var source = context.createBufferSource();
+    //connect it to the destination so you can hear it.
+    source.connect(context.destination);
+
+    /* --- load buffer ---  */
+    var request = new XMLHttpRequest();
+    //open the request
+    request.open('GET', url, true);
+    //webaudio paramaters
+    request.responseType = 'arraybuffer';
+    //Once the request has completed... do this
+    request.onload = function() {
+      context.decodeAudioData(
+        request.response,
+        function(response) {
+          /* --- play the sound AFTER the buffer loaded --- */
+          //set the buffer to the response we just received.
+          source.buffer = response;
+          //start(0) should play asap.
+          source.start(0);
+          source.loop = true;
+        },
+        function() {
+          console.error('The request failed.');
+        }
+      );
+    };
+    this.setState({ source, playing: this.props.settings.sound });
+    //Now that the request has been defined, actually make the request. (send it)
+    request.send();
+  };
   componentWillUnmount = () => {
-    stopMenuMusic();
+    this.state.source.stop();
   };
   onKey = e => {
     const { setSound } = this.props.settings;
@@ -30,17 +62,14 @@ class Menu extends Component {
       setSound();
       if (playing) {
         console.log('mute');
-        clearSource();
+        context.suspend();
       } else {
         console.log('un-mute');
-        playMenuMusic();
+        context.resume();
       }
       playing = !playing;
     }
     this.setState({ map, playing });
-  };
-  componentWillCatch = () => {
-    this.props.history.push('/');
   };
   render() {
     const { match } = this.props;
@@ -49,6 +78,7 @@ class Menu extends Component {
         <MenuSounds />
         <div className="container" onKeyDown={this.onKey} onKeyUp={this.onKey}>
           <Switch>
+            <Route path={`${match.path}/game-modes`} component={GameMode} />
             <Route
               path={`${match.path}/players`}
               exact
