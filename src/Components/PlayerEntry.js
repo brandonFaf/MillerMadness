@@ -12,8 +12,8 @@ export default class PlayerEntry extends React.Component {
   state = {
     cursors: [
       {
-        cursor: 19,
-        letter: 'T'
+        cursor: 1,
+        letter: 'B'
       },
       {
         cursor: 0,
