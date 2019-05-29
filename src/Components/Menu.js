@@ -30,11 +30,9 @@ class Menu extends Component {
       setSound();
       if (playing) {
         console.log('mute');
-        // context.suspend()
         clearSource();
       } else {
         console.log('un-mute');
-        // context.resume();
         playMenuMusic();
       }
       playing = !playing;
