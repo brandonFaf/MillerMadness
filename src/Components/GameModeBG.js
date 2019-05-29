@@ -17,7 +17,7 @@ class GameModeBG extends Component {
 
   next = route => {
     this.setState({ out: true }, () => {
-      setTimeout(() => this.props.history.push(route), 2000);
+      setTimeout(() => this.props.history.push(route), 400);
     });
   };
   onKey = e => {

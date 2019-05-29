@@ -43,15 +43,15 @@ class SkeetShooting extends Component {
     });
 
     socket.on('player1', () => {
-      this.updatePlayer('score1');
-      console.log('to1', this.to1);
-      clearTimeout(this.to1);
+      this.updatePlayer(1);
+    console.log('to1', this.to1);
+    clearTimeout(this.to1);
     });
     socket.on('player2', () => {
-      this.updatePlayer('score2');
-      console.log('to2', this.to2);
+      this.updatePlayer(2);
+    console.log('to2', this.to2);
 
-      clearTimeout(this.to2);
+    clearTimeout(this.to2);
     });
   }
   componentDidUpdate() {
@@ -153,6 +153,8 @@ class SkeetShooting extends Component {
 
     return (
       <div>
+        <button onClick={this.player1}>Player1</button>
+        <button onClick={this.player2}>Player2</button>
         <div className="gameplay">
           <div className="time">
             <div className="seconds">{this.state.go && 'SHOOT'}</div>
