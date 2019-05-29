@@ -153,8 +153,8 @@ class SkeetShooting extends Component {
 
     return (
       <div>
-        <button onClick={this.player1}>Player1</button>
-        <button onClick={this.player2}>Player2</button>
+        {/* <button onClick={this.player1}>Player1</button>
+        <button onClick={this.player2}>Player2</button> */}
         <div className="gameplay">
           <div className="time">
             <div className="seconds">{this.state.go && 'SHOOT'}</div>

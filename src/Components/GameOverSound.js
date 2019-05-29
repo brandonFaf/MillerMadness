@@ -9,7 +9,7 @@ class GameOverSound extends Component {
     source: null
   };
   componentDidMount = () => {
-    if (!this.props.sound) {
+    if (!this.props.settings.sound) {
       return;
     }
     var url = music;
