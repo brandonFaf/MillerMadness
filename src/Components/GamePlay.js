@@ -137,9 +137,7 @@ class GamePlay extends React.Component {
         onKeyUp={this.onKey}
       >
         {this.state.countdown > 0 && this.renderCountdown()}
-        {/* 
-        <button onClick={this.player1}>Player1</button>
-        <button onClick={this.player2}>Player2</button> */}
+        
         {this.getGameMode()}
       </div>
     );
